@@ -1,2 +1,19 @@
 @charset "UTF-8";
 
+@media (min-width: 768px){
+    i#imenu{
+        display: none;
+    }
+    menu{
+        display: block !important;
+    }
+    menu>ul>li{
+        display: inline-block;
+        width: calc(55% / 5);
+        
+
+    }
+    menu>ul>li>a{
+        font-size: 1.7vw;
+    }
+}
