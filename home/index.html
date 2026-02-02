@@ -7,18 +7,24 @@
     <link rel="stylesheet" href="estilos/home.css">
     <link rel="stylesheet" href="estilos/media-query.css">
     <link rel="shortcut icon" href="../" type="image/x-icon">
-    <title></title>
+    <title>Sistema de Filas | Instituto Médio Técnico São Benedito</title>
 </head>
+
 <body onresize="mudoutamanho()">
-    <header class="mobile-header">
-         <header class="mobile-header">
+    <!-- HEADER -->
+
+<header class="header">
+    <div class="header-content">
         <div class="header-top">
-            <!-- Menu hambúrguer -->
+            <!-- space -->
             <div >
             </div>
             
             <!-- Logo -->
-            <div class="logo-mobile">SB</div>
+            <div class="logo-section">
+                <div class="logo">SB</div>
+                <span class="site-title">Instituto Médio Técnico São Benedito</span>
+            </div>
             
             <!-- Notificações -->
             <div class="notification-icon">
@@ -27,13 +33,37 @@
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
                 <span class="notification-badge">2</span>
+
+                <!-- Acções desktop -->
+                <div class="header-actions">
+                    <!-- Search box (só desktop) -->
+                    <div class="search-box">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" placeholder="Pesquisar..." aria-label="Pesquisa">
+                    </div>
+                    
+                    <!-- User profile (só desktop) -->
+                    <div class="user-profile" aria-label="Perfil">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Nome instituto (só mobile/tablet) -->
         <div class="institute-name">Instituto Médio Técnico São Benedito</div>
-        
+
+        <!---Menu Ícone com um script--> 
         <i class="material-icons" id="imenu" onclick="clickMenu()">
         menu
         </i>
+        <!---Menu itens(links)--> 
         <menu id="itens" >
             <ul>
                 <li><a href="#">Opção 1</a></li>
@@ -43,119 +73,180 @@
                 <li><a href="#">Opção 5</a></li>
             </ul>
         </menu>
+    </div>
+</header>
+    <!-- LAYOUT PRINCIPAL -->
 
-    </header>
-
-    <!-- Conteúdo Principal -->
-    <main class="mobile-content">
-
-         <!-- Hero Banner -->
-        <section class="hero-banner">
-            <div class="hero-banner-content">
-                <div class="hero-image-placeholder">📅</div>
-                <h1 class="hero-title-mobile">Pré-agendamentos</h1>
-                <p class="hero-desc-mobile">Agende o seu atendimento com antecedência e evite filas</p>
-                <button class="btn-action-mobile">Saiba mais</button>
-            </div>
-        </section>
-        <!-- Queue Card -->
-        <section class="queue-card">
-            <h2 class="queue-card-title">Faça parte da fila</h2>
-            
-            <div class="stats-grid-mobile">
-                <div class="stat-item-mobile">
-                    <div class="stat-value-mobile">12</div>
-                    <div class="stat-label-mobile">Na Fila</div>
+    <div class="page-layout">
+        <!-- SIDEBAR (só desktop ≥1024px) -->
+            <aside class="sidebar">
+                <!--icone side bar house -->
+                <nav class="nav-item active" aria-label="Início">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    </svg>
+                </nav>
+        
+                <nav class="nav-item" aria-label="Calendário">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </nav>
+        
+                <nav class="nav-item" aria-label="Utilizadores">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </nav>
+        
+                <nav class="nav-item" style="margin-top: auto;" aria-label="Configurações">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6"></path>
+                    </svg>
+                </nav>
+            </aside>
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+             <!-- HERO SECTION -->
+                <section class="hero">
+                    <h1 class="hero-title">Sistema de Gerenciamento de Filas</h1>
+                    <p class="hero-subtitle">Emita a sua senha virtual e acompanhe o atendimento em tempo real</p>
+                    <!-- ESTATÍSTICAS
+                         Mobile: 2 colunas
+                         Tablet: 3 colunas
+                         Desktop: 4 colunas -->
+                    <div class="stats-grid">
+                        <article class="stat-card">
+                            <div class="stat-label">Na Fila</div>
+                            <div class="stat-value">12</div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-label">Tempo Médio</div>
+                            <div class="stat-value">~15min</div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-label">Atendimentos</div>
+                            <div class="stat-value">87</div>
+                        </article>
+        
+                        <article class="stat-card">
+                            <div class="stat-label">Satisfação</div>
+                            <div class="stat-value">94%</div>
+                        </article>
+                    </div>
+                    <!-- BOTÕES CTA
+                         Mobile: Stack vertical
+                         Tablet+: Lado a lado -->
+                    <div class="cta-buttons">
+                        <button class="btn btn-normal">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <polyline points="17 11 19 13 23 9"></polyline>
+                            </svg>
+                            Atendimento Normal
+                        </button>
+        
+                        <button class="btn btn-priority">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                            Atendimento Prioritário
+                        </button>
+                    </div>
+                </section>
+            <section class="services-section">
+                <h2 class="section-title">Serviços mais frequentados</h2>
+                <div class="services-list">
+                    <!--Matriculas-->
+                    <article class="service-card">
+                        <div class="service-icon">📄</div>
+                        <div class="service-info">
+                            <div class="service-name">Matrículas</div>
+                            <div class="service-status">
+                                <span class="status-dot"></span>Disponível
+                            </div>
+                        </div>
+                        <span class="arrow-icon">›</span>
+                    </article>
+                    <!--reconfirmações-->
+                    <article class="service-card">
+                        <div class="service-icon">✓</div>
+                        <div class="service-info">
+                            <div class="service-name">Reconfirmações</div>
+                            <div class="service-status">
+                                <span class="status-dot"></span>Disponível
+                            </div>
+                        </div>
+                        <span class="arrow-icon">›</span>
+                    </article>
+                    <!--emissão de declaração-->
+                    <article class="service-card">
+                        <div class="service-icon">📋</div>
+                        <div class="service-info">
+                            <div class="service-name">Emissão de declarações</div>
+                            <div class="service-status">
+                                <span class="status-dot"></span>Disponível
+                            </div>
+                        </div>
+                        <span class="arrow-icon">›</span>
+                    </article>
+                    <!--Outros serviços-->
+                    <article class="service-card" style="background: linear-gradient(135deg, var(--primary-brown), var(--accent-beige)); color: white; border: none;">
+                        <div class="service-icon" style="background: rgba(255,255,255,0.25);">⊕</div>
+                        <div class="service-info">
+                            <div class="service-name" style="color: white;">Todos os serviços</div>
+                            <div class="service-status" style="color: rgba(255,255,255,0.8);">Ver lista completa</div>
+                        </div>
+                        <span class="arrow-icon" style="color: white;">›</span>
+                    </article>
                 </div>
-                <div class="stat-item-mobile">
-                    <div class="stat-value-mobile">~15min</div>
-                    <div class="stat-label-mobile">Tempo Médio</div>
-                </div>
-            </div>
-
-            <div class="cta-stack">
-                <button class="btn-cta-mobile btn-normal-mobile">
-                    ✓ Atendimento Normal
-                </button>
-                <button class="btn-cta-mobile btn-priority-mobile">
-                    ⭐ Atendimento Prioritário
-                </button>
-            </div>
-        </section>
-
-        <section class="services-mobile">
-            <h2 class="section-title-mobile">Serviços mais frequentados</h2>
-            <div class="services-list">
-                <div class="service-item-mobile">
-                    <div class="service-icon-mobile">📄</div>
-                    <div class="service-info">
-                        <div class="service-name-mobile">Matrículas</div>
-                        <div class="service-status-mobile">
-                            <span class="status-dot-mobile"></span>Disponível
+            </section>
+        
+           <!-- DISPLAY AO VIVO -->
+                <section class="live-display">
+                    <div class="live-header">
+                        <h3 class="section-title" style="margin: 0;">Última Chamada</h3>
+        
+                        <div class="live-badge">
+                            <span class="live-dot"></span>
+                            AO VIVO
                         </div>
                     </div>
-                    <span class="arrow-icon">›</span>
-                </div>
-
-                <div class="service-item-mobile">
-                    <div class="service-icon-mobile">✓</div>
-                    <div class="service-info">
-                        <div class="service-name-mobile">Reconfirmações</div>
-                        <div class="service-status-mobile">
-                            <span class="status-dot-mobile"></span>Disponível
+        
+                    <div class="call-display">
+                        <div class="call-info-left">
+                            <div class="call-label">Senha Atual</div>
+                            <div class="call-number">N041</div>
+                        </div>
+                        <div class="call-info-right">
+                            <div class="call-label">Dirija-se ao</div>
+                            <div class="call-location">Balcão 03</div>
                         </div>
                     </div>
-                    <span class="arrow-icon">›</span>
-                </div>
-
-                <div class="service-item-mobile">
-                    <div class="service-icon-mobile">📋</div>
-                    <div class="service-info">
-                        <div class="service-name-mobile">Emissão de declarações</div>
-                        <div class="service-status-mobile">
-                            <span class="status-dot-mobile"></span>Disponível
-                        </div>
+                </section>
+                <!-- FOOTER INFORMATIVO -->
+                 <footer class="footer">
+                    <h3 class="footer-title">Mais informações sobre nós</h3>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Contactos</a>
+                        <a href="#" class="footer-link">Sugestões</a>
+                        <a href="#" class="footer-link">Fale connosco</a>
                     </div>
-                    <span class="arrow-icon">›</span>
-                </div>
+                </footer>
+        
+        </main>
+    </div>
 
-                <div class="service-item-mobile" style="background: linear-gradient(135deg, var(--primary-brown), var(--accent-beige)); color: white; border: none;">
-                    <div class="service-icon-mobile" style="background: rgba(255,255,255,0.25);">⊕</div>
-                    <div class="service-info">
-                        <div class="service-name-mobile" style="color: white;">Todos os serviços</div>
-                        <div class="service-status-mobile" style="color: rgba(255,255,255,0.8);">Ver lista completa</div>
-                    </div>
-                    <span class="arrow-icon" style="color: white;">›</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Live Call -->
-        <section class="live-call-mobile">
-            <div class="live-header">
-                <h3 class="section-title-mobile" style="margin: 0;">Última chamada</h3>
-                <div class="live-badge-mobile">
-                    <span class="live-dot-mobile"></span>AO VIVO
-                </div>
-            </div>
-            <div class="call-display">
-                <div class="call-label">Senha Atual</div>
-                <div class="call-number">N041</div>
-                <div class="call-location">Balcão 03</div>
-            </div>
-        </section>
-
-    </main>
-    <footer>
-         <footer class="info-footer">
-            <h3 class="footer-title">Mais informações sobre nós</h3>
-            <div class="footer-links">
-                <a href="#" class="footer-link">Contactos</a>
-                <a href="#" class="footer-link">Sugestões</a>
-                <a href="#" class="footer-link">Fale connosco</a>
-            </div>
-            <div class="footer-copy">© 2026 Instituto Médio Técnico São Benedito. Todos os direitos reservados.</div>
-    </footer>
     <script>
         function clickMenu(){
             if (itens.style.display == 'block'){
