@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard administrativo</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="estilos/media-queries.css">
+</head>
+<body>
+    <!-- ========================================
+         HEADER DO DASHBOARD
+    ======================================== -->
+    <header class="dashboard-header">
+        <div class="header-left">
+            <div class="logo-admin">AD</div>
+            <div class="header-title">
+                <h1>Dashboard Administrativo</h1>
+                <p>Instituto Médio Técnico São Benedito</p>
+            </div>
+        </div>
+        
+        <div class="header-actions">
+            <!-- Selector de data -->
+            <div class="date-selector">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                27 Jan 2026
+            </div>
+            
+            <!-- Botão de exportar -->
+            <button class="export-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Exportar
+            </button>
+            
+            <!-- Avatar admin -->
+            <div class="admin-profile">MA</div>
+        </div>
+    </header>
+
+    <!-- ========================================
+         CONTAINER DO DASHBOARD
+    ======================================== -->
+    <main class="dashboard-container">
+        <!-- ========================================
+             KPI CARDS
+        ======================================== -->
+        <section class="kpi-grid">
+            <!-- KPI: Atendimentos Hoje -->
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon brown">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="kpi-trend">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        </svg>
+                        +12%
+                    </div>
+                </div>
+                <div class="kpi-label">Atendimentos Hoje</div>
+                <div class="kpi-value">187</div>
+                <div class="kpi-subtitle">vs 167 ontem</div>
+            </article>
+
+            <!-- KPI: Tempo Médio Espera -->
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon green">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="kpi-trend">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                        </svg>
+                        -8%
+                    </div>
+                </div>
+                <div class="kpi-label">Tempo Médio Espera</div>
+                <div class="kpi-value">12min</div>
+                <div class="kpi-subtitle">Meta: 15min</div>
+            </article>
+
+            <!-- KPI: Taxa de Ocupação -->
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon beige">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="kpi-trend">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        </svg>
+                        +5%
+                    </div>
+                </div>
+                <div class="kpi-label">Taxa de Ocupação</div>
+                <div class="kpi-value">87%</div>
+                <div class="kpi-subtitle">8/9 balcões activos</div>
+            </article>
+
+            <!-- KPI: Satisfação -->
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon bordeaux">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <div class="kpi-trend">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        </svg>
+                        +3%
+                    </div>
+                </div>
+                <div class="kpi-label">Satisfação</div>
+                <div class="kpi-value">94%</div>
+                <div class="kpi-subtitle">342 avaliações</div>
+            </article>
+        </section>
+
+        <!-- ========================================
+             MONITOR EM TEMPO REAL
+        ======================================== -->
+        <section class="realtime-grid">
+            <!-- Filas em tempo real -->
+            <article class="monitor-card">
+                <h3 class="monitor-title">Filas em Tempo Real</h3>
+                <div class="queue-list">
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Secretaria Académica</div>
+                            <div class="queue-count">8 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">08</div>
+                    </div>
+                    
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Tesouraria</div>
+                            <div class="queue-count">5 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">05</div>
+                    </div>
+                    
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Direcção Pedagógica</div>
+                            <div class="queue-count">3 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">03</div>
+                    </div>
+                    
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Biblioteca</div>
+                            <div class="queue-count">2 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">02</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Gráfico de distribuição -->
+            <article class="monitor-card">
+                <h3 class="monitor-title">Distribuição por Tipo</h3>
+                <div class="chart-container" style="height: 280px;">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <!-- ========================================
+             GRÁFICOS PRINCIPAIS
+        ======================================== -->
+        <section class="charts-grid">
+            <!-- Fluxo de atendimentos -->
+            <article class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Fluxo de Atendimentos</h3>
+                    <div class="chart-filter">
+                        <button class="filter-btn">Dia</button>
+                        <button class="filter-btn active">Semana</button>
+                        <button class="filter-btn">Mês</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </article>
+
+            <!-- Pico de atendimentos -->
+            <article class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Pico de Atendimentos</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <!-- ========================================
+             TABELA DE PERFORMANCE
+        ======================================== -->
+        <section class="performance-section">
+            <div class="performance-header">
+                <h3 class="performance-title">Produtividade por Funcionário</h3>
+            </div>
+            
+            <table class="performance-table">
+                <thead>
+                    <tr>
+                        <th>Funcionário</th>
+                        <th>Atendimentos</th>
+                        <th>Tempo Médio</th>
+                        <th>Taxa Conclusão</th>
+                        <th>Desempenho</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar">JS</div>
+                                <div>
+                                    <div class="employee-name">João da Silva</div>
+                                    <div class="employee-role">Secretaria</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>34</strong></td>
+                        <td>8min 12s</td>
+                        <td><strong>98%</strong></td>
+                        <td><span class="performance-badge badge-excellent">Excelente</span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar" style="background: linear-gradient(135deg, #BFA799, #8C6746);">MC</div>
+                                <div>
+                                    <div class="employee-name">Maria Costa</div>
+                                    <div class="employee-role">Tesouraria</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>28</strong></td>
+                        <td>10min 45s</td>
+                        <td><strong>95%</strong></td>
+                        <td><span class="performance-badge badge-excellent">Excelente</span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar" style="background: linear-gradient(135deg, #8C6746, #401903);">PA</div>
+                                <div>
+                                    <div class="employee-name">Paulo Alves</div>
+                                    <div class="employee-role">Direcção</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>22</strong></td>
+                        <td>14min 30s</td>
+                        <td><strong>92%</strong></td>
+                        <td><span class="performance-badge badge-good">Bom</span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar" style="background: linear-gradient(135deg, #10B981, #8C6746);">AS</div>
+                                <div>
+                                    <div class="employee-name">Ana Santos</div>
+                                    <div class="employee-role">Biblioteca</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>19</strong></td>
+                        <td>12min 18s</td>
+                        <td><strong>94%</strong></td>
+                        <td><span class="performance-badge badge-good">Bom</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- ========================================
+         SCRIPTS DOS GRÁFICOS
+    ======================================== -->
+    <script>
+        /* Gráfico de linha - Fluxo semanal */
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                datasets: [{
+                    label: 'Atendimentos',
+                    data: [142, 167, 178, 156, 187, 124],
+                    borderColor: '#8C6746',
+                    backgroundColor: 'rgba(140, 103, 70, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        /* Gráfico de barras - Pico horário */
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['08h', '09h', '10h', '11h', '12h', '14h', '15h', '16h'],
+                datasets: [{
+                    label: 'Atendimentos',
+                    data: [12, 28, 35, 42, 38, 31, 29, 22],
+                    backgroundColor: 'rgba(191, 167, 153, 0.8)',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        /* Gráfico de pizza - Distribuição */
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Normal', 'Prioritário', 'Agendado'],
+                datasets: [{
+                    data: [65, 25, 10],
+                    backgroundColor: [
+                        'rgba(140, 103, 70, 0.8)',
+                        'rgba(191, 167, 153, 0.8)',
+                        'rgba(38, 5, 5, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

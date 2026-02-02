@@ -1,1 +1,210 @@
-!
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de atendimento</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="estilos/media-queries.css">
+</head>
+<body>
+    <!-- ========================================
+         BARRA SUPERIOR
+    ======================================== -->
+    <header class="top-bar">
+        <!-- Informações do atendente -->
+        <div class="attendant-info">
+            <div class="attendant-avatar">JD</div>
+            <div class="attendant-details">
+                <h3>João da Silva</h3>
+                <p>Secretaria Académica</p>
+            </div>
+        </div>
+        
+        <!-- Badge do balcão -->
+        <div class="counter-badge">Balcão 03</div>
+        
+        <!-- Indicador de status -->
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span class="status-text">Em Atendimento</span>
+        </div>
+    </header>
+
+    <!-- ========================================
+         CONTAINER PRINCIPAL
+    ======================================== -->
+    <div class="container">
+        <!-- ========================================
+             COLUNA ESQUERDA - CLIENTE ATUAL
+        ======================================== -->
+        <main class="current-client">
+            <!-- Header com cronómetro -->
+            <div class="section-header">
+                <h2 class="section-title">Atendimento Actual</h2>
+                <div class="timer">05:32</div>
+            </div>
+
+            <!-- Display da senha -->
+            <section class="password-display">
+                <div class="password-label">Senha</div>
+                <div class="password-number">N042</div>
+                <div class="password-type">Atendimento Normal</div>
+            </section>
+
+            <!-- Informações do cliente -->
+            <section class="client-info">
+                <div class="info-row">
+                    <span class="info-label">Serviço Solicitado</span>
+                    <span class="info-value">Matrícula - 1º Ano</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Tempo de Espera</span>
+                    <span class="info-value">12 minutos</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Hora de Emissão</span>
+                    <span class="info-value">14:23</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Observações</span>
+                    <span class="info-value">Documentação completa</span>
+                </div>
+            </section>
+
+            <!-- Botões de ação -->
+            <div class="action-buttons">
+                <button class="btn-action btn-next" aria-label="Chamar próximo utente">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                    Chamar Próximo
+                </button>
+                
+                <button class="btn-action btn-pause" aria-label="Pausar atendimento">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    Pausar
+                </button>
+                
+                <button class="btn-action btn-redirect" aria-label="Reencaminhar utente">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="17 1 21 5 17 9"></polyline>
+                        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                        <polyline points="7 23 3 19 7 15"></polyline>
+                        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                    Reencaminhar
+                </button>
+            </div>
+        </main>
+
+        <!-- ========================================
+             COLUNA DIREITA - SIDEBAR
+        ======================================== -->
+        <aside class="sidebar">
+            <!-- Resumo da fila -->
+            <section class="queue-summary">
+                <h3 class="summary-title">Resumo da Fila</h3>
+                <div class="summary-stats">
+                    <!-- Aguardando -->
+                    <article class="stat-box">
+                        <div class="stat-info">
+                            <h4>Aguardando</h4>
+                            <p>08</p>
+                        </div>
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                    </article>
+                    
+                    <!-- Atendidos hoje -->
+                    <article class="stat-box">
+                        <div class="stat-info">
+                            <h4>Atendidos Hoje</h4>
+                            <p>34</p>
+                        </div>
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </article>
+                    
+                    <!-- Tempo médio -->
+                    <article class="stat-box">
+                        <div class="stat-info">
+                            <h4>Tempo Médio</h4>
+                            <p>~8min</p>
+                        </div>
+                        <div class="stat-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Log de atividades -->
+            <section class="activity-log">
+                <h3 class="log-title">Histórico de Hoje</h3>
+                <div class="log-list">
+                    <article class="log-item completed">
+                        <div class="log-password">N041 - Concluído</div>
+                        <div class="log-time">14:32 • Duração: 7 min</div>
+                    </article>
+                    
+                    <article class="log-item completed">
+                        <div class="log-password">N040 - Concluído</div>
+                        <div class="log-time">14:18 • Duração: 12 min</div>
+                    </article>
+                    
+                    <article class="log-item redirected">
+                        <div class="log-password">N039 - Reencaminhado</div>
+                        <div class="log-time">14:10 • Para Tesouraria</div>
+                    </article>
+                    
+                    <article class="log-item completed">
+                        <div class="log-password">N038 - Concluído</div>
+                        <div class="log-time">13:58 • Duração: 5 min</div>
+                    </article>
+                    
+                    <article class="log-item completed">
+                        <div class="log-password">N037 - Concluído</div>
+                        <div class="log-time">13:45 • Duração: 9 min</div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Ações rápidas -->
+            <section class="quick-actions">
+                <button class="quick-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Adicionar Observação
+                </button>
+                
+                <button class="quick-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Solicitar Documentos
+                </button>
+            </section>
+        </aside>
+    </div>
+</body>
+</html>

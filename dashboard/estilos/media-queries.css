@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+ /* ========================================
+           RESPONSIVIDADE
+        ======================================== */
+        @media (max-width: 1200px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .realtime-grid {
+                grid-template-columns: 1fr;
+            }
+        }
