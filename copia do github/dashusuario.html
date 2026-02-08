@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dashusuario.css">
+    <link rel="stylesheet" href="dashusuariomediaq.css">
+</head>
+<body>
+    <header class="header">
+    <div class="header-content">
+        <div class="header-top">
+            <!-- space -->
+            <div >
+            </div>
+            
+            <!-- Logo -->
+            <div class="logo-section">
+                <div class="logo">SB</div>
+                <span class="site-title">Instituto Médio Técnico São Benedito</span>
+            </div>
+            
+            <!-- Notificações -->
+            <div class="notification-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#401903" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="notification-badge">2</span>
+
+               
+            </div>
+        </div>
+
+        <!-- Nome do instituto -->
+        <div class="institute-name">Instituto Médio Técnico São Benedito</div>
+
+        <!---Menu Ícone com um script--> 
+        <i class="material-icons" id="imenu" onclick="clickMenu()">
+        menu
+        </i>
+
+        <!---Menu itens(links)--> 
+        <menu id="itens" >
+            <ul>
+                <li><a href="#">Opção 1</a></li>
+                <li><a href="#">Opção 2</a></li>
+                <li><a href="#">Opção 3</a></li>
+                <li><a href="#">Opção 4</a></li>
+                <li><a href="#">Opção 5</a></li>
+                <li><button type="button" class="menu-logout" id="btnSairUserMobile">Sair</button></li>
+            </ul>
+        </menu>
+    </div>
+</header>
+
+    <div class="page-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <nav class="nav-item active" aria-label="Início">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                </svg>
+            </nav>
+
+            <nav class="nav-item" aria-label="Calendário">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+            </nav>
+
+            <nav class="nav-item" aria-label="Utilizadores">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            </nav>
+
+            <nav class="nav-item" style="margin-top: auto;" aria-label="Configurações">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6"></path>
+                </svg>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section class="hero">
+                <h1 class="hero-title">Sistema de Gerenciamento de Filas</h1>
+                <p class="hero-subtitle">Emita a sua senha virtual e acompanhe o atendimento em tempo real</p>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-label">Na Fila</div>
+                        <div class="stat-value">12</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-label">Tempo Médio</div>
+                        <div class="stat-value">~15min</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-label">Atendimentos</div>
+                        <div class="stat-value">87</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-label">Satisfação</div>
+                        <div class="stat-value">94%</div>
+                    </article>
+                </div>
+
+                <div class="cta-buttons">
+                    <button class="btn btn-normal" id="btnAtendimento" type="button" onclick="gerarSenha()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <polyline points="17 11 19 13 23 9"></polyline>
+                        </svg>
+                        Atendimento 
+                    </button>
+                </div>
+            </section>
+
+            <section class="services-section">
+                <h2 class="section-title">Serviços mais frequentados</h2>
+                <div class="services-list">
+
+                    <!--Matriculas-->
+                    <article class="service-card" data-servico="Matrículas">
+                        <div class="service-icon">📄</div>
+                        <div class="service-info">
+                            <div class="service-name">Matrículas</div>
+                            <div class="service-status">
+                                <span class="status-dot"></span>Disponível
+                            </div>
+                        </div>
+                        <span class="arrow-icon">›</span>
+                    </article>
+
+                    <!--reconfirmações-->
+                    <article class="service-card" data-servico="Reconfirmações">
+                        <div class="service-icon">✓</div>
+                        <div class="service-info">
+                            <div class="service-name">Reconfirmações</div>
+                            <div class="service-status">
+                                <span class="status-dot"></span>Disponível
+                            </div>
+                        </div>
+                        <span class="arrow-icon">›</span>
+                    </article>
+
+                    <!--emissão de declaração-->
+                    <article class="service-card" data-servico="Emissão de declarações">
+                        <div class="service-icon">📋</div>
+                        <div class="service-info">
+                            <div class="service-name">Emissão de declarações</div>
+                            <div class="service-status">
+                                <span class="status-dot"></span>Disponível
+                            </div>
+                        </div>
+                        <span class="arrow-icon">›</span>
+                    </article>
+
+                    <!--Outros serviços-->
+                    <article class="service-card" data-servico="Todos os serviços" style="background: linear-gradient(135deg, var(--primary-brown), var(--accent-beige)); color: white; border: none;">
+                        <div class="service-icon" style="background: rgba(255,255,255,0.25);">⊕</div>
+                        <div class="service-info">
+                            <div class="service-name" style="color: white;"></div>
+                        </div>
+                        <span class="arrow-icon" style="color: rgba(255,255,255,0.9);">›</span>
+                    </article>
+                </div>
+            </section>
+
+            <section class="live-display">
+                <div class="live-header">
+                    <h3 class="section-title" style="margin: 0;">Última Chamada</h3>
+                    <div class="live-badge">
+                        <span class="live-dot"></span>
+                        AO VIVO
+                    </div>
+                </div>
+
+                <div class="call-display">
+                    <div class="call-info-left">
+                        <div class="call-label">Senha Atual</div>
+                        <div class="call-number" id="ultimaChamada">N041</div>
+                    </div>
+                    <div class="call-info-right">
+                        <div class="call-label">Dirija-se ao</div>
+                        <div class="call-location">Balcão 03</div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="footer">
+                <h3 class="footer-title">Mais informações sobre nós</h3>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Contactos</a>
+                    <a href="#" class="footer-link">Sugestões</a>
+                    <a href="#" class="footer-link">Fale connosco</a>
+                </div>
+            </footer>
+ <button type="button" class="btn-logout" id="btnSairUserDesktop">Sair</button>
+        </main>
+    </div>
+
+<script src="dashusario.js"></script>
+</body>
+</html>
