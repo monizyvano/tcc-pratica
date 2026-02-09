@@ -1,40 +1,24 @@
-@charset "UTF-8";
-
-/* ========================================
-           RESET BÁSICO
-        ======================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* ========================================
-           PALETA ADOBE COLOR - TEMA TERRA
-        ======================================== */
-        :root {
-            /* Cores principais */
+  :root {
             --primary-brown: #8C6746;
             --primary-brown-dark: #401903;
             --accent-beige: #BFA799;
             --accent-bordeaux: #260505;
             --neutral-gray: #D9D9D9;
-            
-            /* Gradiente de fundo */
             --bg-gradient: linear-gradient(135deg, #F0EBE3 0%, #E5DDD1 100%);
             --glass-bg: rgba(255, 255, 255, 0.8);
-            
-            /* Sombras */
             --shadow-soft: 0 8px 32px rgba(64, 25, 3, 0.08);
             --shadow-strong: 0 20px 60px rgba(64, 25, 3, 0.15);
-            
-            /* Textos */
             --text-dark: #401903;
             --text-muted: #8C6746;
-            
-            /* Estados */
             --success-green: #10B981;
+            --warning-orange: #F59E0B;
             --alert-red: #DC2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
@@ -44,9 +28,7 @@
             min-height: 100vh;
         }
 
-        /* ========================================
-           BARRA SUPERIOR
-        ======================================== */
+        /* Top Bar */
         .top-bar {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -60,14 +42,12 @@
             z-index: 100;
         }
 
-        /* Informações do atendente */
         .attendant-info {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
-        /* Avatar do atendente */
         .attendant-avatar {
             width: 48px;
             height: 48px;
@@ -93,7 +73,6 @@
             color: var(--text-muted);
         }
 
-        /* Badge do balcão */
         .counter-badge {
             background: var(--accent-beige);
             color: white;
@@ -103,14 +82,12 @@
             font-size: 1rem;
         }
 
-        /* Indicador de status */
         .status-indicator {
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
 
-        /* Dot pulsante de status */
         .status-dot {
             width: 12px;
             height: 12px;
@@ -120,14 +97,8 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(1.1);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
         }
 
         .status-text {
@@ -135,9 +106,7 @@
             color: var(--success-green);
         }
 
-        /* ========================================
-           CONTAINER PRINCIPAL
-        ======================================== */
+        /* Container Principal */
         .container {
             max-width: 1400px;
             margin: 2rem auto;
@@ -147,9 +116,13 @@
             gap: 2rem;
         }
 
-        /* ========================================
-           CARD DO CLIENTE ATUAL
-        ======================================== */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Current Client Card */
         .current-client {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -160,17 +133,10 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header da secção */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -185,7 +151,6 @@
             color: var(--primary-brown-dark);
         }
 
-        /* Cronómetro */
         .timer {
             background: rgba(220, 38, 38, 0.1);
             color: var(--alert-red);
@@ -196,9 +161,7 @@
             font-weight: 700;
         }
 
-        /* ========================================
-           DISPLAY DA SENHA
-        ======================================== */
+        /* Password Display */
         .password-display {
             background: linear-gradient(135deg, var(--primary-brown), var(--accent-beige));
             border-radius: 20px;
@@ -206,6 +169,18 @@
             text-align: center;
             margin-bottom: 2rem;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .password-display::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
         }
 
         .password-label {
@@ -214,6 +189,7 @@
             letter-spacing: 2px;
             opacity: 0.9;
             margin-bottom: 1rem;
+            position: relative;
         }
 
         .password-number {
@@ -221,6 +197,8 @@
             font-size: 5rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .password-type {
@@ -230,19 +208,18 @@
             padding: 0.5rem 1.5rem;
             border-radius: 50px;
             font-weight: 600;
+            position: relative;
         }
 
-        /* ========================================
-           INFORMAÇÕES DO CLIENTE
-        ======================================== */
+        /* Client Info */
         .client-info {
             background: white;
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
         }
 
-        /* Linha de informação */
         .info-row {
             display: flex;
             justify-content: space-between;
@@ -264,16 +241,13 @@
             color: var(--text-dark);
         }
 
-        /* ========================================
-           BOTÕES DE AÇÃO
-        ======================================== */
+        /* Action Buttons */
         .action-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
         }
 
-        /* Botão de ação base */
         .btn-action {
             padding: 1.25rem;
             border: none;
@@ -299,38 +273,31 @@
             transform: translateY(-2px);
         }
 
-        /* Botão "Chamar Próximo" */
         .btn-next {
             background: linear-gradient(135deg, var(--success-green), #059669);
             color: white;
         }
 
-        /* Botão "Pausar" */
         .btn-pause {
             background: white;
             color: var(--accent-beige);
             border: 2px solid var(--accent-beige);
         }
 
-        /* Botão "Reencaminhar" */
         .btn-redirect {
             background: white;
             color: var(--primary-brown);
             border: 2px solid var(--primary-brown);
         }
 
-        /* ========================================
-           SIDEBAR DIREITA
-        ======================================== */
+        /* Sidebar */
         .sidebar {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
 
-        /* ========================================
-           RESUMO DA FILA
-        ======================================== */
+        /* Queue Summary */
         .queue-summary {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -353,7 +320,6 @@
             gap: 1rem;
         }
 
-        /* Box de estatística */
         .stat-box {
             background: white;
             padding: 1.25rem;
@@ -361,6 +327,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-box:hover {
+            transform: translateX(5px);
         }
 
         .stat-info h4 {
@@ -378,7 +349,6 @@
             color: var(--primary-brown);
         }
 
-        /* Ícone da estatística */
         .stat-icon {
             width: 48px;
             height: 48px;
@@ -390,9 +360,7 @@
             color: var(--primary-brown);
         }
 
-        /* ========================================
-           LOG DE ATIVIDADES
-        ======================================== */
+        /* Activity Log */
         .activity-log {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -417,20 +385,22 @@
             overflow-y: auto;
         }
 
-        /* Item do log */
         .log-item {
             background: white;
             padding: 1rem;
             border-radius: 12px;
             border-left: 4px solid var(--success-green);
+            transition: transform 0.3s;
         }
 
-        /* Log concluído */
+        .log-item:hover {
+            transform: translateX(5px);
+        }
+
         .log-item.completed {
             border-left-color: var(--success-green);
         }
 
-        /* Log reencaminhado */
         .log-item.redirected {
             border-left-color: var(--accent-beige);
         }
@@ -447,9 +417,7 @@
             color: var(--text-muted);
         }
 
-        /* ========================================
-           AÇÕES RÁPIDAS
-        ======================================== */
+        /* Quick Actions */
         .quick-actions {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -478,3 +446,43 @@
             border-color: var(--primary-brown);
             background: rgba(140, 103, 70, 0.05);
         }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+                text-align: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .current-client, .queue-summary, .activity-log, .quick-actions {
+                padding: 1.5rem;
+            }
+            
+            .password-number {
+                font-size: 3.5rem;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+.btn-logout{
+    padding: .6rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(64,25,3,.25);
+    background: rgba(255,255,255,.9);
+    color: var(--primary-brown-dark);
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-logout:hover{
+    background: var(--accent-bordeaux);
+    color: var(--accent-beige);
+    transition: all .2s ease;
+}   

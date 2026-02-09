@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dashadm.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+     <header class="dashboard-header">
+        <div class="header-left">
+            <div class="logo-admin">SB</div>
+            <div class="header-title">
+                <h1>IMTSB Dashboard</h1>
+                <p>Instituto Médio Técnico São Benedito</p>
+            </div>
+        </div>
+        
+        <div class="header-actions">
+            <div class="date-selector">
+                <i class="far fa-calendar"></i>
+                <span id="currentDate">27 Jan 2026</span>
+            </div>
+            
+            <button class="export-btn" onclick="exportData()">
+                <i class="fas fa-download"></i>
+                Exportar
+            </button>
+             <button class="export-btn logout-btn" type="button" id="btnSairAdmin">Sair</button>
+            <div class="admin-profile" onclick="toggleProfileMenu()">MA</div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- KPIs -->
+        <section class="kpi-grid">
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon brown">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="kpi-trend">
+                        <i class="fas fa-arrow-up"></i>
+                        +12%
+                    </div>
+                </div>
+                <div class="kpi-label">Atendimentos Hoje</div>
+                <div class="kpi-value">187</div>
+                <div class="kpi-subtitle">vs 167 ontem</div>
+            </article>
+
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon green">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="kpi-trend negative">
+                        <i class="fas fa-arrow-down"></i>
+                        -8%
+                    </div>
+                </div>
+                <div class="kpi-label">Tempo Médio Espera</div>
+                <div class="kpi-value">12min</div>
+                <div class="kpi-subtitle">Meta: 15min</div>
+            </article>
+
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon beige">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="kpi-trend">
+                        <i class="fas fa-arrow-up"></i>
+                        +5%
+                    </div>
+                </div>
+                <div class="kpi-label">Taxa de Ocupação</div>
+                <div class="kpi-value">87%</div>
+                <div class="kpi-subtitle">8/9 balcões ativos</div>
+            </article>
+
+            <article class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon bordeaux">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="kpi-trend">
+                        <i class="fas fa-arrow-up"></i>
+                        +3%
+                    </div>
+                </div>
+                <div class="kpi-label">Satisfação</div>
+                <div class="kpi-value">94%</div>
+                <div class="kpi-subtitle">342 avaliações</div>
+            </article>
+        </section>
+
+        <!-- Monitor em Tempo Real -->
+        <section class="realtime-grid">
+            <article class="monitor-card">
+                <h3 class="monitor-title">Filas em Tempo Real</h3>
+                <div class="queue-list">
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Secretaria Académica</div>
+                            <div class="queue-count">8 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">08</div>
+                    </div>
+                    
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Tesouraria</div>
+                            <div class="queue-count">5 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">05</div>
+                    </div>
+                    
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Direção Pedagógica</div>
+                            <div class="queue-count">3 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">03</div>
+                    </div>
+                    
+                    <div class="queue-item">
+                        <div>
+                            <div class="queue-service">Biblioteca</div>
+                            <div class="queue-count">2 pessoas aguardando</div>
+                        </div>
+                        <div class="queue-number">02</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="monitor-card">
+                <h3 class="monitor-title">Distribuição por Tipo</h3>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <!-- Gráficos Principais -->
+        <section class="charts-grid">
+            <article class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Fluxo de Atendimentos</h3>
+                    <div class="chart-filter">
+                        <button class="filter-btn" onclick="changeChartPeriod('day')">Dia</button>
+                        <button class="filter-btn active" onclick="changeChartPeriod('week')">Semana</button>
+                        <button class="filter-btn" onclick="changeChartPeriod('month')">Mês</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </article>
+
+            <article class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Pico de Atendimentos</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <!-- Tabela de Performance -->
+        <section class="performance-section">
+            <div class="performance-header">
+                <h3 class="performance-title">Produtividade por Funcionário</h3>
+            </div>
+            
+            <table class="performance-table">
+                <thead>
+                    <tr>
+                        <th>Funcionário</th>
+                        <th>Atendimentos</th>
+                        <th>Tempo Médio</th>
+                        <th>Taxa Conclusão</th>
+                        <th>Desempenho</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar">JS</div>
+                                <div>
+                                    <div class="employee-name">João da Silva</div>
+                                    <div class="employee-role">Secretaria</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>34</strong></td>
+                        <td>8min 12s</td>
+                        <td><strong>98%</strong></td>
+                        <td><span class="performance-badge badge-excellent">Excelente</span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar">MC</div>
+                                <div>
+                                    <div class="employee-name">Maria Costa</div>
+                                    <div class="employee-role">Tesouraria</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>28</strong></td>
+                        <td>10min 45s</td>
+                        <td><strong>95%</strong></td>
+                        <td><span class="performance-badge badge-excellent">Excelente</span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar">PA</div>
+                                <div>
+                                    <div class="employee-name">Paulo Alves</div>
+                                    <div class="employee-role">Direção</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>22</strong></td>
+                        <td>14min 30s</td>
+                        <td><strong>92%</strong></td>
+                        <td><span class="performance-badge badge-good">Bom</span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <div class="employee-avatar">AS</div>
+                                <div>
+                                    <div class="employee-name">Ana Santos</div>
+                                    <div class="employee-role">Biblioteca</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>19</strong></td>
+                        <td>12min 18s</td>
+                        <td><strong>94%</strong></td>
+                        <td><span class="performance-badge badge-good">Bom</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+ <script src="dashadm.js"></script>
+</body>
+</html>

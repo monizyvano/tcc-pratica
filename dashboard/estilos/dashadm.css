@@ -1,40 +1,24 @@
-@charset "UTF-8";
-
-/* ========================================
-           RESET BÁSICO
-        ======================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* ========================================
-           PALETA ADOBE COLOR - TEMA TERRA
-        ======================================== */
-        :root {
-            /* Cores principais */
+  :root {
             --primary-brown: #8C6746;
             --primary-brown-dark: #401903;
             --accent-beige: #BFA799;
             --accent-bordeaux: #260505;
             --neutral-gray: #D9D9D9;
-            
-            /* Gradiente de fundo */
             --bg-gradient: linear-gradient(135deg, #F8F5F0 0%, #EEE8E0 50%, #E8DFD4 100%);
             --glass-bg: rgba(255, 255, 255, 0.75);
-            
-            /* Sombras */
             --shadow-soft: 0 4px 24px rgba(64, 25, 3, 0.08);
             --shadow-medium: 0 8px 32px rgba(64, 25, 3, 0.12);
-            
-            /* Textos */
             --text-dark: #401903;
             --text-muted: #8C6746;
-            
-            /* Estados */
             --success-green: #10B981;
+            --warning-orange: #F59E0B;
             --alert-red: #DC2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
@@ -44,9 +28,7 @@
             min-height: 100vh;
         }
 
-        /* ========================================
-           HEADER DO DASHBOARD
-        ======================================== */
+        /* Header */
         .dashboard-header {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -66,7 +48,6 @@
             gap: 1.5rem;
         }
 
-        /* Logo administrativo */
         .logo-admin {
             width: 48px;
             height: 48px;
@@ -92,32 +73,23 @@
             color: var(--text-muted);
         }
 
-        /* Ações do header */
         .header-actions {
             display: flex;
             gap: 1rem;
             align-items: center;
         }
 
-        /* Selector de data */
         .date-selector {
             background: white;
             border: 2px solid #E5E7EB;
             border-radius: 12px;
             padding: 0.75rem 1.25rem;
             font-weight: 600;
-            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s;
         }
 
-        .date-selector:hover {
-            border-color: var(--primary-brown);
-        }
-
-        /* Botão de exportar */
         .export-btn {
             background: var(--primary-brown);
             color: white;
@@ -137,7 +109,6 @@
             transform: translateY(-2px);
         }
 
-        /* Avatar do administrador */
         .admin-profile {
             width: 42px;
             height: 42px;
@@ -151,35 +122,30 @@
             cursor: pointer;
         }
 
-        /* ========================================
-           CONTAINER DO DASHBOARD
-        ======================================== */
+        /* Container */
         .dashboard-container {
             max-width: 1600px;
             margin: 2rem auto;
             padding: 0 2.5rem;
         }
 
-        /* ========================================
-           GRID DE KPIs
-        ======================================== */
+        /* KPI Grid */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        /* Card de KPI */
         .kpi-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: var(--shadow-soft);
+            transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s;
         }
 
         .kpi-card:hover {
@@ -198,7 +164,6 @@
             border-radius: 50%;
         }
 
-        /* Header do KPI */
         .kpi-header {
             display: flex;
             justify-content: space-between;
@@ -206,7 +171,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Ícone do KPI */
         .kpi-icon {
             width: 48px;
             height: 48px;
@@ -217,23 +181,11 @@
             color: white;
         }
 
-        .kpi-icon.brown {
-            background: linear-gradient(135deg, var(--primary-brown), var(--accent-beige));
-        }
+        .kpi-icon.brown { background: linear-gradient(135deg, var(--primary-brown), var(--accent-beige)); }
+        .kpi-icon.green { background: linear-gradient(135deg, var(--success-green), #34D399); }
+        .kpi-icon.beige { background: linear-gradient(135deg, var(--accent-beige), var(--neutral-gray)); }
+        .kpi-icon.bordeaux { background: linear-gradient(135deg, var(--accent-bordeaux), var(--primary-brown-dark)); }
 
-        .kpi-icon.green {
-            background: linear-gradient(135deg, var(--success-green), #34D399);
-        }
-
-        .kpi-icon.beige {
-            background: linear-gradient(135deg, var(--accent-beige), var(--neutral-gray));
-        }
-
-        .kpi-icon.bordeaux {
-            background: linear-gradient(135deg, var(--accent-bordeaux), var(--primary-brown-dark));
-        }
-
-        /* Badge de tendência */
         .kpi-trend {
             background: rgba(16, 185, 129, 0.1);
             color: var(--success-green);
@@ -273,22 +225,28 @@
             margin-top: 0.5rem;
         }
 
-        /* ========================================
-           GRID DE GRÁFICOS
-        ======================================== */
-        .charts-grid {
+        /* Grids */
+        .realtime-grid, .charts-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .chart-card {
+        .monitor-card, .chart-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: var(--shadow-soft);
+        }
+
+        .monitor-title, .chart-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-brown-dark);
+            margin-bottom: 1.5rem;
         }
 
         .chart-header {
@@ -298,14 +256,6 @@
             margin-bottom: 1.5rem;
         }
 
-        .chart-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-brown-dark);
-        }
-
-        /* Filtros de gráfico */
         .chart-filter {
             display: flex;
             gap: 0.5rem;
@@ -328,24 +278,58 @@
             border-color: var(--primary-brown);
         }
 
-        .filter-btn:hover {
-            border-color: var(--primary-brown);
-        }
-
         .chart-container {
             position: relative;
             height: 350px;
         }
 
-        /* ========================================
-           TABELA DE PERFORMANCE
-        ======================================== */
+        /* Queue List */
+        .queue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .queue-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .queue-item:hover {
+            transform: translateX(5px);
+        }
+
+        .queue-service {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .queue-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .queue-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-beige);
+        }
+
+        /* Performance Table */
         .performance-section {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: var(--shadow-soft);
+            margin-bottom: 2rem;
         }
 
         .performance-header {
@@ -355,14 +339,6 @@
             margin-bottom: 1.5rem;
         }
 
-        .performance-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-brown-dark);
-        }
-
-        /* Tabela */
         .performance-table {
             width: 100%;
             border-collapse: collapse;
@@ -379,7 +355,6 @@
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .performance-table td {
@@ -387,11 +362,6 @@
             border-bottom: 1px solid #E5E7EB;
         }
 
-        .performance-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Informação do funcionário */
         .employee-info {
             display: flex;
             align-items: center;
@@ -421,7 +391,6 @@
             color: var(--text-muted);
         }
 
-        /* Badges de performance */
         .performance-badge {
             padding: 0.35rem 0.75rem;
             border-radius: 50px;
@@ -439,67 +408,41 @@
             color: var(--accent-beige);
         }
 
-        .badge-average {
-            background: rgba(140, 103, 70, 0.1);
-            color: var(--primary-brown);
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .realtime-grid, .charts-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* ========================================
-           MONITOR EM TEMPO REAL
-        ======================================== */
-        .realtime-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .dashboard-container {
+                padding: 1rem;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
         }
+        /* (o teu dashadm.css original aqui em cima...) */
 
-        .monitor-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .monitor-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-brown-dark);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Lista de filas */
-        .queue-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .queue-item {
-            background: white;
-            padding: 1.25rem;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .queue-service {
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.25rem;
-        }
-
-        .queue-count {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .queue-number {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--accent-beige);
-        }
+/* Botão Sair (Admin) */
+.logout-btn{
+    background: rgba(78, 41, 8, 0.73);
+    border: 1px solid rgba(64,25,3,.25);
+}
+.logout-btn:hover{
+    background: #260505;
+    color: #BFA799;
+}

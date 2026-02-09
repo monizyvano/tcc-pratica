@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> IMTSB</title>
+    <link rel="stylesheet" href="dash.css">
+ 
+<body>
+    <header class="top-bar">
+        <div class="attendant-info">
+            <div class="attendant-avatar">JD</div>
+            <div class="attendant-details">
+                <h3>João da Silva</h3>
+                <p>Secretaria Académica</p>
+            </div>
+        </div>
+        
+        <div class="counter-badge">Balcão 03</div>
+        
+        <button class="btn-logout" type="button" onclick="sair()">Sair</button>
+
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span class="status-text">Em Atendimento</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="current-client">
+            <div class="section-header">
+                <h2 class="section-title">Atendimento Atual</h2>
+                <div class="timer" id="timer">00:00</div>
+            </div>
+
+            <section class="password-display">
+                <div class="password-label">Senha</div>
+                <div class="password-number" id="currentPassword">N042</div>
+                <div class="password-type">Atendimento Normal</div>
+            </section>
+
+            <section class="client-info">
+                <div class="info-row">
+                    <span class="info-label">Serviço Solicitado</span>
+                    <span class="info-value">Matrícula - 1º Ano</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Tempo de Espera</span>
+                    <span class="info-value" id="waitTime">12 minutos</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Hora de Emissão</span>
+                    <span class="info-value">14:23</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Observações</span>
+                    <span class="info-value">Documentação completa</span>
+                </div>
+            </section>
+
+            <div class="action-buttons">
+                <button class="btn-action btn-next" onclick="callNextCustomer()">
+                    <i class="fas fa-forward fa-2x"></i>
+                    Chamar Próximo
+                </button>
+                
+                <button class="btn-action btn-pause" onclick="togglePause()">
+                    <i class="fas fa-pause fa-2x"></i>
+                    Pausar
+                </button>
+                
+                <button class="btn-action btn-redirect" onclick="redirectCustomer()">
+                    <i class="fas fa-exchange-alt fa-2x"></i>
+                    Reencaminhar
+                </button>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <section class="queue-summary">
+                <h3 class="summary-title">Resumo da Fila</h3>
+                <div class="summary-stats">
+                    <article class="stat-box">
+                        <div class="stat-info">
+                            <h4>Aguardando</h4>
+                            <p id="waitingCount">08</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </article>
+                    
+                    <article class="stat-box">
+                        <div class="stat-info">
+                            <h4>Atendidos Hoje</h4>
+                            <p id="servedToday">34</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </article>
+                    
+                    <article class="stat-box">
+                        <div class="stat-info">
+                            <h4>Tempo Médio</h4>
+                            <p id="avgTime">~8min</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="activity-log">
+                <h3 class="log-title">Histórico de Hoje</h3>
+                <div class="log-list" id="activityLog">
+                    <!-- Logs serão adicionados dinamicamente -->
+                </div>
+            </section>
+
+            <section class="quick-actions">
+                <button class="quick-btn" onclick="addObservation()">
+                    <i class="fas fa-edit"></i>
+                    Adicionar Observação
+                </button>
+                
+                <button class="quick-btn" onclick="requestDocuments()">
+                    <i class="fas fa-file-download"></i>
+                    Solicitar Documentos
+                </button>
+                
+                <button class="quick-btn" onclick="showStatistics()">
+                    <i class="fas fa-chart-bar"></i>
+                    Ver Estatísticas
+                </button>
+            </section>
+        </aside>
+    </div>
+
+    <script src="dash.js"></script>
+</body>
+</html>

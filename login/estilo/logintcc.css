@@ -50,7 +50,7 @@ section#login{
 } 
 section#login > div#imagem{
     display: block;
-    background: var(--accent-bordeaux) url(../imagens/classroom.jpg) center center no-repeat   fixed;
+    background: var(--accent-bordeaux) url(classroom.jpg) center center no-repeat   fixed;
     background-size: cover;
     height: 200px;
 }

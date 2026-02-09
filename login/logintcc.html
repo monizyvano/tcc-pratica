@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="logintcc.css">
+    <link rel="stylesheet" href="estilo/media-query.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="shortcut icon" href="imagens/favicon.ico" type="image/x-icon">
+    <title>Login</title>
+</head>
+
+<body>
+<main>
+    <section id="login">
+        <div id="imagem"></div>
+
+        <div id="formulario">
+            <h1>Login</h1>
+
+            <!-- SELEÇÃO DE TIPO -->
+            <select id="tipo">
+                <option value="usuario">Usuário</option>
+                <option value="trabalhador">Trabalhador</option>
+                <option value="admin">Administrador</option>
+            </select>
+
+            <!-- FORM SEM ACTION -->
+            <form id="loginForm" autocomplete="on">
+                <div class="campo">
+                    <i class="material-icons">person</i>
+                    <input type="email" id="iemail" placeholder="Seu e-mail"
+                           required autocomplete="email" maxlength="30">
+                    <label for="iemail">Email</label>
+                </div>
+
+                <div class="campo">
+                    <i class="material-icons">vpn_key</i>
+                    <input type="password" id="isenha" placeholder="Sua senha"
+                           required minlength="8" maxlength="16"
+                           autocomplete="current-password">
+                    <label for="isenha">Senha</label>
+                </div>
+
+                <input type="submit" value="Entrar" id="botao-enviar">
+            </form>
+        </div>
+    </section>
+</main>
+
+<script src="logintcc.js"></script>
+</body>
+</html>
