@@ -1,4 +1,4 @@
-  :root {
+﻿  :root {
             --primary-brown: #8C6746;
             --primary-brown-dark: #401903;
             --accent-beige: #BFA799;
@@ -107,6 +107,15 @@
         .export-btn:hover {
             background: var(--primary-brown-dark);
             transform: translateY(-2px);
+        }
+
+        .export-format {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
         }
 
         .admin-profile {
@@ -445,4 +454,23 @@
 .logout-btn:hover{
     background: #260505;
     color: #BFA799;
+}
+
+.worker-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: .7rem;
+}
+
+.worker-form-grid input,
+.worker-form-grid select {
+    background: #fff;
+    border: 1px solid #d8d1cb;
+    border-radius: 10px;
+    padding: .7rem .8rem;
+}
+
+#workerFormMsg {
+    margin-top: .7rem;
+    font-weight: 600;
 }

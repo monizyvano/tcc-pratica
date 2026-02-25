@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /* ==== MOBILE FIRST========= */
 
 *{
@@ -68,6 +68,7 @@ h1, h2, h3, h4, h5, h6 {
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            gap: 10px;
         }
       
         .logo {
@@ -384,8 +385,7 @@ h1, h2, h3, h4, h5, h6 {
    BOTÕES SAIR + SELEÇÃO
 ========================== */
 .btn-logout{
-    margin-left: 12px;
-    padding: .55rem .9rem;
+    padding: .6rem 1rem;
     border-radius: 14px;
     border: 1px solid rgba(64,25,3,.25);
     background: rgba(255,255,255,.9);
@@ -394,6 +394,21 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
 }
 .btn-logout:hover{
+    background: var(--accent-bordeaux);
+    color: var(--accent-beige);
+    transition: all .2s ease;
+}
+
+.btn-profile{
+    padding: .6rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(64,25,3,.25);
+    background: rgba(255,255,255,.9);
+    color: var(--primary-brown-dark);
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-profile:hover{
     background: var(--accent-bordeaux);
     color: var(--accent-beige);
     transition: all .2s ease;
@@ -413,8 +428,152 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--accent-beige);
     transition: all .2s ease;
 }
+.menu-profile{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-dark);
+    font-weight: 700;
+    cursor: pointer;
+}
+.menu-profile:hover{
+    background-color: var(--accent-bordeaux);
+    color: var(--accent-beige);
+    transition: all .2s ease;
+}
 
 .service-card.ativo{
     outline: 3px solid rgba(140,103,70,.35);
     transform: translateY(-2px);
+}
+
+.ticket-message{
+    min-height: 20px;
+    margin-top: 8px;
+    font-weight: 700;
+}
+.ticket-message.ok{ color: var(--success-green); }
+.ticket-message.warn{ color: var(--color-error); }
+
+.service-docs-box{
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    background: rgba(255,255,255,.96);
+    border: 1px solid rgba(191,167,153,.25);
+    border-radius: 16px;
+}
+
+.service-docs-box h3{
+    margin-bottom: 8px;
+    font-size: var(--text-base);
+}
+
+#serviceDocsList{
+    margin-left: 18px;
+    margin-bottom: 10px;
+    color: var(--text-muted);
+}
+
+.upload-label{
+    display: block;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+#docInput{
+    margin-bottom: 8px;
+}
+
+.file-list{
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+}
+
+.tickets-list{
+    display:grid;
+    gap: 10px;
+}
+
+.ticket-item{
+    background: rgba(255,255,255,.95);
+    border: 1px solid rgba(191,167,153,.25);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.ticket-top{
+    display:flex;
+    justify-content:space-between;
+    gap: 10px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.ticket-actions{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.ticket-actions button,
+.rating-form button{
+    border: 1px solid rgba(64,25,3,.25);
+    border-radius: 8px;
+    padding: 6px 10px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.rating-form{
+    margin-top: 8px;
+    display:grid;
+    gap: 6px;
+}
+
+.rating-form select,
+.rating-form input{
+    border:1px solid rgba(64,25,3,.2);
+    border-radius: 8px;
+    padding: 6px 8px;
+    height: 34px;
+}
+
+.dados-panel{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 1rem;
+}
+.dados-panel.aberto{
+    display: flex;
+}
+.dados-card{
+    width: min(460px, 100%);
+    background: #fff;
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+}
+.dados-card h3{
+    margin-bottom: .8rem;
+}
+.dados-card p{
+    margin-bottom: .5rem;
+    color: var(--text-muted);
+}
+.btn-fechar-dados{
+    margin-top: .7rem;
+    padding: .55rem .9rem;
+    border-radius: 12px;
+    border: 1px solid rgba(64,25,3,.25);
+    background: #fff;
+    color: var(--primary-brown-dark);
+    cursor: pointer;
+    font-weight: 700;
 }
