@@ -70,6 +70,12 @@ h1, h2, h3, h4, h5, h6 {
             margin-bottom: 1rem;
             gap: 10px;
         }
+
+        .header-buttons-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
       
         .logo {
             width: 40px;
@@ -121,37 +127,9 @@ h1, h2, h3, h4, h5, h6 {
             text-align: center;
         }
     
-    i#imenu{
-        display: block;
-        background:var(--glass-bg);
-        color: var(--primary-brown);
-        text-align: center;
-        padding: 10px;
-        cursor: pointer;
-        font-size: 6vw;
-    }
-    i#imenu:hover{
-        background-color: var(--bg-gradient);
-        color: var(--primary-brown-dark);
-    }
+    i#imenu,
     menu{
-        display: none;
-    }
-    menu ul{
-        list-style-type: none;
-    }
-    menu > ul > li > a{
-        display: block;
-        padding: 10px;
-        text-decoration: none;
-        color: var(--text-dark);
-        text-align: center;
-        border-top: 2px solid rgba(0, 0, 0, 0.397);
-    }
-    menu > ul > li > a:hover{
-        background-color: var(--accent-bordeaux);
-        color: var(--accent-beige);
-        transition: all 0.2s ease;
+        display: none !important;
     }
 
 .search-box,
@@ -414,35 +392,6 @@ h1, h2, h3, h4, h5, h6 {
     transition: all .2s ease;
 }
 
-.menu-logout{
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: transparent;
-    color: var(--text-dark);
-    font-weight: 700;
-    cursor: pointer;
-}
-.menu-logout:hover{
-    background-color: var(--accent-bordeaux);
-    color: var(--accent-beige);
-    transition: all .2s ease;
-}
-.menu-profile{
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: transparent;
-    color: var(--text-dark);
-    font-weight: 700;
-    cursor: pointer;
-}
-.menu-profile:hover{
-    background-color: var(--accent-bordeaux);
-    color: var(--accent-beige);
-    transition: all .2s ease;
-}
-
 .service-card.ativo{
     outline: 3px solid rgba(140,103,70,.35);
     transform: translateY(-2px);
@@ -577,3 +526,142 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
     font-weight: 700;
 }
+
+.service-menu{
+    margin-top: .5rem;
+    width: 100%;
+    border: 1px solid rgba(64,25,3,.2);
+    border-radius: 8px;
+    padding: 6px 8px;
+    background: #fff;
+    color: var(--text-dark);
+}
+
+.calendar-panel{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.calendar-panel.aberto{
+    display: flex;
+}
+
+.calendar-card{
+    width: min(1100px, 100%);
+    max-height: 92vh;
+    overflow: auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.calendar-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: .8rem;
+}
+
+.calendar-controls{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: .8rem;
+}
+
+.calendar-controls button{
+    border: 1px solid rgba(64,25,3,.25);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--primary-brown-dark);
+    padding: .5rem .8rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.calendar-legend{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: .7rem;
+    color: var(--text-muted);
+    font-size: .9rem;
+}
+
+.legend-dot{
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #a16207;
+}
+
+.annual-calendar-grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .8rem;
+}
+
+.month-card{
+    border: 1px solid rgba(191,167,153,.35);
+    border-radius: 12px;
+    padding: .7rem;
+}
+
+.month-title{
+    font-weight: 800;
+    color: var(--accent-bordeaux);
+    margin-bottom: .4rem;
+}
+
+.month-table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+}
+
+.month-table th,
+.month-table td{
+    width: 14.28%;
+    text-align: center;
+    padding: 4px 2px;
+}
+
+.month-table th{
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.month-table td{
+    color: var(--text-dark);
+}
+
+.month-table td.event-day{
+    background: #fef3c7;
+    color: #78350f;
+    font-weight: 700;
+    border-radius: 6px;
+    position: relative;
+}
+
+.event-dot{
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #a16207;
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+
+
+
+

@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /* ==== MOBILE FIRST========= */
 
 
@@ -29,7 +29,7 @@
             --shadow-sm: 0 2px 8px rgba(64, 25, 3, 0.08);
             --shadow-md: 0 4px 16px rgba(64, 25, 3, 0.12);
             --shadow-lg: 0 8px 32px rgba(64, 25, 3, 0.16);
-            /* Espaçamentos (Mobile) */
+            /* EspaÃ§amentos (Mobile) */
             --space-xs: 0.5rem;
             --space-sm: 0.75rem;
             --space-md: 1rem;
@@ -100,7 +100,7 @@ h1, h2, h3, h4, h5, h6 {
             display: none;
         }
 
-        /* Notificação com badge */
+        /* NotificaÃ§Ã£o com badge */
         .notification-icon {
             position: relative;
             cursor: pointer;
@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
         }
     
 
-/* Menuhambúrguer */
+/* MenuhambÃºrguer */
         
     i#imenu{
     display: block;
@@ -180,7 +180,7 @@ menu > ul > li > a:hover{
     display: none;
 }
 
-        /* Conteúdo principal mobile */
+        /* ConteÃºdo principal mobile */
         .main-content {
             padding: var(--space-md);
         }
@@ -242,7 +242,7 @@ menu > ul > li > a:hover{
 }
 
 /* ========================================
-   BOTÕES CTA - Stack vertical mobile
+   BOTÃ•ES CTA - Stack vertical mobile
 ======================================== */
 .cta-buttons {
     display: flex;
@@ -288,7 +288,7 @@ menu > ul > li > a:hover{
 }
 
 /* ========================================
-   SERVIÇOS - Lista vertical mobile
+   SERVIÃ‡OS - Lista vertical mobile
 ======================================== */
 .services-section {
     margin-top: var(--space-lg);
@@ -485,3 +485,8 @@ menu > ul > li > a:hover{
             font-size: 0.1rem;
             color: var(--text-muted);
         }
+
+
+
+
+

@@ -38,6 +38,12 @@
     const email = document.getElementById("iemail").value;
     const senha = document.getElementById("isenha").value;
     const tipo = document.getElementById("loginTipo").value;
+    const confirmDados = document.getElementById("loginConfirmDados");
+
+    if (!confirmDados || !confirmDados.checked) {
+      showMessage("Confirme os dados antes de entrar.", "error");
+      return;
+    }
 
     const result = window.IMTSBStore.login(email, senha, tipo);
     if (!result.ok) {
@@ -51,6 +57,11 @@
 
   registerForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    const confirmDados = document.getElementById("registerConfirmDados");
+    if (!confirmDados || !confirmDados.checked) {
+      showMessage("Confirme os dados antes de cadastrar.", "error");
+      return;
+    }
 
     const payload = {
       name: document.getElementById("rnome").value,
@@ -74,3 +85,4 @@
 function voltarprincipal() {
   window.location.href = "principal.html";
 }
+

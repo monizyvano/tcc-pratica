@@ -1,4 +1,4 @@
-  :root {
+﻿  :root {
             --primary-brown: #8C6746;
             --primary-brown-dark: #401903;
             --accent-beige: #BFA799;
@@ -486,3 +486,7 @@
     color: var(--accent-beige);
     transition: all .2s ease;
 }   
+
+
+
+

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Administrador</title>
-    <link rel="stylesheet" href="dashadm.css">
+    <link rel="stylesheet" href="css/dashadm.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -32,6 +32,7 @@
                 <option value="pdf">PDF</option>
             </select>
             <button class="export-btn" onclick="exportData()">Exportar</button>
+            <button class="export-btn danger-btn" type="button" id="btnResetDayAdmin">Guardar Dia e Reiniciar</button>
             <button class="export-btn logout-btn" type="button" id="btnSairAdmin">Sair</button>
             <div class="admin-profile" id="adminInitials">AD</div>
         </div>
@@ -154,10 +155,9 @@
                 <input id="newWorkerEmail" type="email" placeholder="Email">
                 <input id="newWorkerPass" type="password" placeholder="Senha">
                 <select id="newWorkerDept">
-                    <option value="Secretaria">Secretaria</option>
-                    <option value="Tesouraria">Tesouraria</option>
-                    <option value="Documentacao">Documentacao</option>
-                    <option value="Outro">Outro servico</option>
+                    <option value="Secretaria Academica">Balcao 1 - Secretaria Academica</option>
+                    <option value="Contabilidade">Balcao 2 - Contabilidade</option>
+                    <option value="Apoio ao Cliente">Balcao 3 - Apoio ao Cliente</option>
                 </select>
                 <button class="export-btn" type="button" id="btnAddWorker">Adicionar Trabalhador</button>
             </div>
@@ -168,6 +168,7 @@
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Setor</th>
+                        <th>Acao</th>
                     </tr>
                 </thead>
                 <tbody id="workersBody"></tbody>
@@ -175,10 +176,14 @@
         </section>
     </main>
 
- <script src="api-config.js"></script>
- <script src="api-client.js"></script>
- <script src="realtime-store.js"></script>
- <script src="dashadm.js"></script>
+ <script src="js/api-config.js"></script>
+ <script src="js/api-client.js"></script>
+ <script src="js/realtime-store.js"></script>
+ <script src="js/dashadm.js"></script>
 </body>
 </html>
+
+
+
+
 

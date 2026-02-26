@@ -13,9 +13,7 @@
   const currentTicketEl = document.getElementById("currentTicket");
   const ultimaChamadaEl = document.getElementById("ultimaChamada");
   const btnSairDesk = document.getElementById("btnSairUserDesktop");
-  const btnSairMobile = document.getElementById("btnSairUserMobile");
   const btnMeusDadosDesktop = document.getElementById("btnMeusDadosDesktop");
-  const btnMeusDadosMobile = document.getElementById("btnMeusDadosMobile");
   const btnFecharDados = document.getElementById("btnFecharDados");
   const meusDadosPanel = document.getElementById("meusDadosPanel");
   const profileName = document.getElementById("userProfileName");
@@ -24,6 +22,13 @@
   const dadoEmail = document.getElementById("dadoEmail");
   const dadoPerfil = document.getElementById("dadoPerfil");
   const dadoLogin = document.getElementById("dadoLogin");
+  const btnOpenCalendarNav = document.getElementById("btnOpenCalendarNav");
+  const calendarPanel = document.getElementById("calendarPanel");
+  const btnCloseCalendar = document.getElementById("btnCloseCalendar");
+  const btnPrevYear = document.getElementById("btnPrevYear");
+  const btnNextYear = document.getElementById("btnNextYear");
+  const calendarYearLabel = document.getElementById("calendarYearLabel");
+  const annualCalendarGrid = document.getElementById("annualCalendarGrid");
 
   const statFila = document.getElementById("statFila");
   const statTempo = document.getElementById("statTempo");
@@ -31,29 +36,50 @@
   const statSat = document.getElementById("statSat");
 
   const serviceDocuments = {
-    Matriculas: [
+    Matricula: [
       "Bilhete de Identidade do aluno",
       "Certificado de habilitacoes",
       "2 fotografias tipo passe"
     ],
-    Reconfirmacoes: [
+    Reconfirmacao: [
       "Cartao do aluno",
       "Comprovativo de pagamento",
       "Documento de identificacao"
+    ],
+    Tesouraria: [
+      "Documento de identificacao",
+      "Comprovativo de pagamento",
+      "Requerimento de atendimento"
     ],
     "Pedido de declaracao": [
       "Comprovativo do motivo de prioridade",
       "Documento de identificacao",
       "Formulario do pedido"
     ],
-    Documentacao: [
-      "Requerimento assinado",
+    "Apoio ao Cliente": [
       "Documento de identificacao",
-      "Comprovativo de pagamento de taxas"
+      "Descricao do problema ou solicitacao"
     ]
   };
 
   let selectedService = "";
+  let calendarYear = new Date().getFullYear();
+  const monthNames = [
+    "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+  const weekDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
+  const fixedCalendarEvents = [
+    { name: "1 Provas dos Professores", start: "2025-10-13", end: "2025-10-24" },
+    { name: "1 Prova Trimestral", start: "2025-12-08", end: "2025-12-19" },
+    { name: "Inicio das Provas dos Professores (2 Trimestre)", start: "2026-02-09", end: "2026-02-20" },
+    { name: "2 Provas Trimestrais", start: "2026-03-16", end: "2026-03-27" },
+    { name: "Jornadas Cientificas", start: "2026-03-27", end: "2026-04-01" },
+    { name: "3 Prova dos Professores", start: "2026-05-04", end: "2026-05-15" },
+    { name: "3 Prova Trimestral", start: "2026-06-01", end: "2026-06-12" },
+    { name: "Exames", start: "2026-06-22", end: "2026-07-03" },
+    { name: "Inicio das Aulas", start: "2026-09-07", end: "2026-09-07" }
+  ];
 
   function showMessage(text, type) {
     ticketMessage.textContent = text || "";
@@ -81,6 +107,114 @@
   function fecharDados() {
     if (!meusDadosPanel) return;
     meusDadosPanel.classList.remove("aberto");
+  }
+
+  function abrirCalendario() {
+    if (!calendarPanel) return;
+    calendarPanel.classList.add("aberto");
+  }
+
+  function fecharCalendario() {
+    if (!calendarPanel) return;
+    calendarPanel.classList.remove("aberto");
+  }
+
+  function buildMonthMatrix(year, month) {
+    const firstDay = new Date(year, month, 1);
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const startWeekDay = (firstDay.getDay() + 6) % 7;
+    const cells = [];
+
+    for (let i = 0; i < startWeekDay; i += 1) cells.push("");
+    for (let d = 1; d <= totalDays; d += 1) cells.push(String(d));
+    while (cells.length % 7 !== 0) cells.push("");
+
+    return cells;
+  }
+
+  function parseDateKey(key) {
+    const parts = String(key).split("-").map((n) => Number(n));
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
+
+  function formatDateKey(dateObj) {
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const d = String(dateObj.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function addDays(baseDate, days) {
+    const d = new Date(baseDate.getTime());
+    d.setDate(d.getDate() + days);
+    return d;
+  }
+
+  function addRangeToMap(eventsMap, startDate, endDate, label, targetYear) {
+    let cursor = new Date(startDate.getTime());
+    while (cursor <= endDate) {
+      if (cursor.getFullYear() === targetYear) {
+        const key = formatDateKey(cursor);
+        if (!eventsMap[key]) eventsMap[key] = [];
+        eventsMap[key].push(label);
+      }
+      cursor = addDays(cursor, 1);
+    }
+  }
+
+  function buildEventsMapForYear(year) {
+    const map = {};
+
+    fixedCalendarEvents.forEach((eventItem) => {
+      const start = parseDateKey(eventItem.start);
+      const end = parseDateKey(eventItem.end);
+      if (start.getFullYear() === year || end.getFullYear() === year || (start.getFullYear() < year && end.getFullYear() > year)) {
+        addRangeToMap(map, start, end, eventItem.name, year);
+      }
+    });
+
+    if (year >= 2027) {
+      const recurrenceBase = fixedCalendarEvents.filter((eventItem) => eventItem.start.startsWith("2026-"));
+      const weekShift = 7 * (year - 2026);
+      recurrenceBase.forEach((eventItem) => {
+        const shiftedStart = addDays(parseDateKey(eventItem.start), weekShift);
+        const shiftedEnd = addDays(parseDateKey(eventItem.end), weekShift);
+        addRangeToMap(map, shiftedStart, shiftedEnd, `${eventItem.name} (Planeado ${year})`, year);
+      });
+    }
+
+    return map;
+  }
+
+  function renderAnnualCalendar() {
+    if (!annualCalendarGrid || !calendarYearLabel) return;
+    calendarYearLabel.textContent = String(calendarYear);
+    annualCalendarGrid.innerHTML = "";
+    const eventsMap = buildEventsMapForYear(calendarYear);
+
+    for (let month = 0; month < 12; month += 1) {
+      const matrix = buildMonthMatrix(calendarYear, month);
+      const card = document.createElement("article");
+      card.className = "month-card";
+
+      let tableHtml = `<table class="month-table"><thead><tr>${weekDays.map((d) => `<th>${d}</th>`).join("")}</tr></thead><tbody>`;
+      for (let i = 0; i < matrix.length; i += 7) {
+        const row = matrix.slice(i, i + 7);
+        const rowHtml = row.map((day) => {
+          if (!day) return "<td></td>";
+          const key = `${calendarYear}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+          const events = eventsMap[key] || [];
+          if (!events.length) return `<td>${day}</td>`;
+          const title = events.join(" | ").replace(/"/g, "'");
+          return `<td class="event-day" title="${title}">${day}<span class="event-dot"></span></td>`;
+        }).join("");
+        tableHtml += `<tr>${rowHtml}</tr>`;
+      }
+      tableHtml += "</tbody></table>";
+
+      card.innerHTML = `<div class="month-title">${monthNames[month]}</div>${tableHtml}`;
+      annualCalendarGrid.appendChild(card);
+    }
   }
 
   function readFiles(files) {
@@ -217,15 +351,22 @@
         btnRecibo.type = "button";
         btnRecibo.textContent = "Baixar Recibo";
         btnRecibo.addEventListener("click", () => {
-          const blob = new Blob([ticket.receipt.content], { type: "text/plain;charset=utf-8" });
-          const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
-          link.href = url;
-          link.download = ticket.receipt.fileName || `recibo_${ticket.code}.txt`;
+          if (ticket.receipt.dataUrl) {
+            link.href = ticket.receipt.dataUrl;
+          } else {
+            const mime = ticket.receipt.mimeType || "text/plain;charset=utf-8";
+            const blob = new Blob([ticket.receipt.content], { type: mime });
+            link.href = URL.createObjectURL(blob);
+          }
+          const ext = ticket.receipt.format === "pdf" ? "pdf" : "txt";
+          link.download = ticket.receipt.fileName || `recibo_${ticket.code}.${ext}`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          URL.revokeObjectURL(url);
+          if (!ticket.receipt.dataUrl && link.href.startsWith("blob:")) {
+            URL.revokeObjectURL(link.href);
+          }
         });
         actions.appendChild(btnRecibo);
       }
@@ -240,7 +381,12 @@
     const userTickets = getUserTickets(snapshot);
 
     if (ultimaChamadaEl) {
-      ultimaChamadaEl.textContent = snapshot.lastCalled ? snapshot.lastCalled.code : "---";
+      if (snapshot.lastCalled) {
+        const where = snapshot.lastCalled.counterName ? ` - ${snapshot.lastCalled.counterName}` : "";
+        ultimaChamadaEl.textContent = `${snapshot.lastCalled.code}${where}`;
+      } else {
+        ultimaChamadaEl.textContent = "---";
+      }
     }
 
     renderStats(snapshot);
@@ -251,9 +397,30 @@
     card.addEventListener("click", () => {
       servicesList.querySelectorAll(".service-card").forEach((item) => item.classList.remove("ativo"));
       card.classList.add("ativo");
-      selectedService = card.dataset.servico || "";
+      const directService = card.dataset.servico || "";
+      if (directService) {
+        selectedService = directService;
+      } else {
+        const menu = card.querySelector(".service-menu");
+        selectedService = menu ? menu.value : "";
+      }
       renderServiceDocuments(selectedService);
-      showMessage(`Servico selecionado: ${selectedService}`, "ok");
+      if (selectedService) {
+        showMessage(`Servico selecionado: ${selectedService}`, "ok");
+      } else {
+        showMessage("Selecione o servico no menu deste cartao.", "warn");
+      }
+    });
+  });
+
+  servicesList.querySelectorAll(".service-menu").forEach((menuEl) => {
+    menuEl.addEventListener("change", () => {
+      const parentCard = menuEl.closest(".service-card");
+      servicesList.querySelectorAll(".service-card").forEach((item) => item.classList.remove("ativo"));
+      if (parentCard) parentCard.classList.add("ativo");
+      selectedService = menuEl.value || "";
+      renderServiceDocuments(selectedService);
+      if (selectedService) showMessage(`Servico selecionado: ${selectedService}`, "ok");
     });
   });
 
@@ -293,16 +460,30 @@
 
   docInput.addEventListener("change", renderSelectedFiles);
   if (btnSairDesk) btnSairDesk.addEventListener("click", () => window.IMTSBStore.logout());
-  if (btnSairMobile) btnSairMobile.addEventListener("click", () => window.IMTSBStore.logout());
   if (btnMeusDadosDesktop) btnMeusDadosDesktop.addEventListener("click", abrirDados);
-  if (btnMeusDadosMobile) btnMeusDadosMobile.addEventListener("click", () => {
-    abrirDados();
-    clickMenu();
-  });
   if (btnFecharDados) btnFecharDados.addEventListener("click", fecharDados);
   if (meusDadosPanel) {
     meusDadosPanel.addEventListener("click", (event) => {
       if (event.target === meusDadosPanel) fecharDados();
+    });
+  }
+  if (btnOpenCalendarNav) btnOpenCalendarNav.addEventListener("click", abrirCalendario);
+  if (btnCloseCalendar) btnCloseCalendar.addEventListener("click", fecharCalendario);
+  if (btnPrevYear) {
+    btnPrevYear.addEventListener("click", () => {
+      calendarYear -= 1;
+      renderAnnualCalendar();
+    });
+  }
+  if (btnNextYear) {
+    btnNextYear.addEventListener("click", () => {
+      calendarYear += 1;
+      renderAnnualCalendar();
+    });
+  }
+  if (calendarPanel) {
+    calendarPanel.addEventListener("click", (event) => {
+      if (event.target === calendarPanel) fecharCalendario();
     });
   }
 
@@ -311,23 +492,10 @@
   if (dadoEmail) dadoEmail.textContent = session.email || "-";
   if (dadoPerfil) dadoPerfil.textContent = session.role || "-";
   if (dadoLogin) dadoLogin.textContent = formatDate(session.loggedAt);
+  renderAnnualCalendar();
   renderServiceDocuments("");
   renderSelectedFiles();
   window.IMTSBStore.onChange(render);
   render();
 })();
 
-function clickMenu() {
-  const itens = document.getElementById("itens");
-  if (!itens) return;
-  itens.style.display = itens.style.display === "block" ? "none" : "block";
-}
-
-function mudoutamanho() {
-  const itens = document.getElementById("itens");
-  if (!itens) return;
-  itens.style.display = window.innerWidth >= 768 ? "block" : "none";
-}
-
-window.addEventListener("resize", mudoutamanho);
-window.addEventListener("load", mudoutamanho);

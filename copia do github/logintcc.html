@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - IMTSB</title>
-  <link rel="stylesheet" href="logintcc.css">
+  <link rel="stylesheet" href="css/logintcc.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
@@ -41,6 +41,11 @@
             <input type="password" id="isenha" placeholder="Sua senha" required minlength="6" maxlength="32" autocomplete="current-password">
           </div>
 
+          <label class="confirm-line">
+            <input type="checkbox" id="loginConfirmDados">
+            Confirmo que os dados informados estao corretos.
+          </label>
+
           <input type="submit" value="Entrar" id="botao-enviar">
           <button type="button" class="btn-voltar" onclick="voltarprincipal()">Voltar</button>
         </form>
@@ -63,16 +68,26 @@
             <input type="password" id="rsenha" placeholder="Criar senha" required minlength="6" maxlength="32" autocomplete="new-password">
           </div>
 
+          <label class="confirm-line">
+            <input type="checkbox" id="registerConfirmDados">
+            Confirmo que os dados informados estao corretos.
+          </label>
+
           <input type="submit" value="Criar Conta" id="botao-cadastrar">
         </form>
       </div>
     </section>
   </main>
 
-  <script src="api-config.js"></script>
-  <script src="api-client.js"></script>
-  <script src="realtime-store.js"></script>
-  <script src="logintcc.js"></script>
+  <script src="js/api-config.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/realtime-store.js"></script>
+  <script src="js/logintcc.js"></script>
 </body>
 </html>
+
+
+
+
+
 

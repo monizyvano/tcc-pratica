@@ -331,3 +331,4 @@ function mudoutamanho() {
 
 window.addEventListener("resize", mudoutamanho);
 window.addEventListener("load", mudoutamanho);
+

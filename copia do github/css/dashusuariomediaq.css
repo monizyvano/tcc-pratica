@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 
 /*tablets*/
 @media (min-width: 768px) and (max-width: 992px){
@@ -47,7 +47,7 @@
             --shadow-sm: 0 2px 8px rgba(64, 25, 3, 0.08);
             --shadow-md: 0 4px 16px rgba(64, 25, 3, 0.12);
             --shadow-lg: 0 8px 32px rgba(64, 25, 3, 0.16);
-            /* Espaçamentos (Mobile) */
+            /* EspaÃ§amentos (Mobile) */
             --space-xs: 0.5rem;
             --space-sm: 0.75rem;
             --space-md: 1rem;
@@ -92,6 +92,10 @@
     
     .header-top {
         margin-bottom: 0;
+    }
+
+    .header-buttons-vertical {
+        min-width: 130px;
     }
     
     .header-content {
@@ -237,7 +241,7 @@
         grid-template-columns: repeat(4, 1fr);
     }
     
-    /* Serviços: grid 4 colunas */
+    /* ServiÃ§os: grid 4 colunas */
     .services-list {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -264,6 +268,10 @@
         transform: translateY(-8px);
         box-shadow: var(--shadow-lg);
     }
+
+    .annual-calendar-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
     
     /* Call display horizontal */
     .call-display {
@@ -277,4 +285,9 @@
         text-align: right;
     }
 }
+
+
+
+
+
 

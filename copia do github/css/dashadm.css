@@ -104,10 +104,26 @@
             transition: all 0.3s;
         }
 
-        .export-btn:hover {
-            background: var(--primary-brown-dark);
-            transform: translateY(-2px);
-        }
+.export-btn:hover {
+    background: var(--primary-brown-dark);
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background: #6b7280;
+}
+
+.secondary-btn:hover {
+    background: #4b5563;
+}
+
+.danger-btn {
+    background: #b91c1c;
+}
+
+.danger-btn:hover {
+    background: #7f1d1d;
+}
 
         .export-format {
             background: white;
@@ -474,3 +490,22 @@
     margin-top: .7rem;
     font-weight: 600;
 }
+
+.remove-worker-btn {
+    border: 1px solid #b91c1c;
+    background: #fff5f5;
+    color: #b91c1c;
+    border-radius: 8px;
+    padding: .45rem .75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.remove-worker-btn:hover {
+    background: #fee2e2;
+}
+
+
+
+
+

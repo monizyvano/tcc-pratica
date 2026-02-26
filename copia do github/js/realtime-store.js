@@ -15,10 +15,11 @@
       counterPriority: 0,
       currentTicketId: null,
       lastCalled: null,
+      dailyArchives: [],
       users: [
         { id: "u-admin-1", name: "Administrador 1", email: "admin1@sb.com", password: "Admin1234", role: "admin" },
         { id: "u-admin-2", name: "Administrador 2", email: "admin2@sb.com", password: "Admin2234", role: "admin" },
-        { id: "u-worker-1", name: "Trabalhador 1", email: "trabalhador@sb.com", password: "Trab12345", role: "trabalhador", department: "Secretaria" },
+        { id: "u-worker-1", name: "Trabalhador 1", email: "trabalhador@sb.com", password: "Trab12345", role: "trabalhador", department: "Secretaria Academica" },
         { id: "u-user-1", name: "Usuario 1", email: "usuario@sb.com", password: "User12345", role: "usuario" }
       ],
       queue: [],
@@ -32,6 +33,31 @@
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
+  }
+
+  function normalizeDepartment(value) {
+    const raw = String(value || "").trim().toLowerCase();
+    if (raw === "secretaria academica" || raw === "secretaria") return "Secretaria Academica";
+    if (raw === "contabilidade" || raw === "tesouraria") return "Contabilidade";
+    if (raw === "apoio ao cliente") return "Apoio ao Cliente";
+    return "Apoio ao Cliente";
+  }
+
+  function departmentCounterName(department) {
+    const normalized = normalizeDepartment(department);
+    if (normalized === "Secretaria Academica") return "Balcao 1 - Secretaria Academica";
+    if (normalized === "Contabilidade") return "Balcao 2 - Contabilidade";
+    return "Balcao 3 - Apoio ao Cliente";
+  }
+
+  function resolveRoutingByService(service) {
+    const key = String(service || "").trim().toLowerCase();
+    if (key === "matricula") return { department: "Secretaria Academica", counterNumber: 1 };
+    if (key === "reconfirmacao") return { department: "Secretaria Academica", counterNumber: 1 };
+    if (key === "tesouraria") return { department: "Contabilidade", counterNumber: 2 };
+    if (key === "pedido de declaracao") return { department: "Secretaria Academica", counterNumber: 1 };
+    if (key === "apoio ao cliente") return { department: "Apoio ao Cliente", counterNumber: 3 };
+    return { department: "Apoio ao Cliente", counterNumber: 3 };
   }
 
   function readData() {
@@ -48,6 +74,27 @@
       if (!Array.isArray(parsed.users)) parsed.users = [];
       if (!Array.isArray(parsed.queue)) parsed.queue = [];
       if (!Array.isArray(parsed.history)) parsed.history = [];
+      if (!Array.isArray(parsed.dailyArchives)) parsed.dailyArchives = [];
+      parsed.users = parsed.users.map((user) => {
+        if (user.role === "trabalhador") {
+          user.department = normalizeDepartment(user.department);
+        }
+        return user;
+      });
+      parsed.queue = parsed.queue.map((ticket) => {
+        const route = resolveRoutingByService(ticket.service);
+        ticket.department = normalizeDepartment(ticket.department || route.department);
+        ticket.counterNumber = ticket.counterNumber || route.counterNumber;
+        ticket.counterName = ticket.counterName || departmentCounterName(ticket.department);
+        return ticket;
+      });
+      parsed.history = parsed.history.map((ticket) => {
+        const route = resolveRoutingByService(ticket.service);
+        ticket.department = normalizeDepartment(ticket.department || route.department);
+        ticket.counterNumber = ticket.counterNumber || route.counterNumber;
+        ticket.counterName = ticket.counterName || departmentCounterName(ticket.department);
+        return ticket;
+      });
       if (typeof parsed.counterNormal !== "number") {
         parsed.counterNormal = typeof parsed.counter === "number" ? parsed.counter : 0;
       }
@@ -90,6 +137,7 @@
       email: user.email,
       name: user.name,
       role: user.role,
+      department: user.department || null,
       loggedAt: nowIso()
     }));
   }
@@ -177,7 +225,7 @@
       return {
         ok: true,
         user: { name: user.name, role: user.role, email: user.email },
-        redirect: user.role === "admin" ? "dashadm.html" : (user.role === "trabalhador" ? "dashtrabalho.html" : "dashusuario.html")
+        redirect: user.role === "admin" ? "dashadm.html" : (user.role === "trabalhador" ? "dashtrabalho.html" : "index.html")
       };
     },
 
@@ -212,7 +260,7 @@
       const name = String(payload.name || "").trim();
       const email = normalizeEmail(payload.email);
       const password = String(payload.password || "");
-      const department = String(payload.department || "").trim() || "Outro";
+      const department = normalizeDepartment(payload.department);
 
       if (name.length < 3) return { ok: false, message: "Nome deve ter pelo menos 3 caracteres." };
       if (!email.includes("@")) return { ok: false, message: "Email invalido." };
@@ -236,6 +284,21 @@
       });
     },
 
+    removeWorker(workerId) {
+      const id = String(workerId || "").trim();
+      if (!id) return { ok: false, message: "Trabalhador invalido." };
+
+      return updateData((data) => {
+        const index = data.users.findIndex((item) => item.id === id && item.role === "trabalhador");
+        if (index === -1) return { ok: false, message: "Trabalhador nao encontrado." };
+        const worker = data.users[index];
+        const hasCurrent = data.queue.some((item) => item.status === "em_atendimento" && item.attendedBy === worker.name);
+        if (hasCurrent) return { ok: false, message: "Nao e possivel remover trabalhador em atendimento." };
+        data.users.splice(index, 1);
+        return { ok: true, message: "Trabalhador removido com sucesso." };
+      });
+    },
+
     issueTicket(payload) {
       const service = String(payload.service || "").trim();
       const userEmail = normalizeEmail(payload.userEmail);
@@ -247,6 +310,7 @@
       return updateData((data) => {
         const serviceKey = service.toLowerCase();
         const isPriority = serviceKey === "pedido de declaracao" || serviceKey === "senhas prioritarias";
+        const route = resolveRoutingByService(service);
         const next = isPriority
           ? nextCode(data.counterPriority, "P")
           : nextCode(data.counterNormal, "N");
@@ -261,6 +325,9 @@
           userEmail,
           userName,
           status: "aguardando",
+          department: route.department,
+          counterNumber: route.counterNumber,
+          counterName: departmentCounterName(route.department),
           createdAt: nowIso(),
           calledAt: null,
           receivedAt: null,
@@ -283,27 +350,38 @@
       });
     },
 
-    callNext(attendantName) {
-      const who = String(attendantName || "Trabalhador").trim();
+    callNext(attendantInput, maybeDepartment) {
+      const who = typeof attendantInput === "object"
+        ? String(attendantInput.name || "Trabalhador").trim()
+        : String(attendantInput || "Trabalhador").trim();
+      const departmentRaw = typeof attendantInput === "object"
+        ? attendantInput.department
+        : maybeDepartment;
+      const department = normalizeDepartment(departmentRaw);
+
       return updateData((data) => {
         if (data.queue.length === 0) {
           return { ok: false, message: "Nao ha senha na fila." };
         }
 
-        const current = data.queue.find((item) => item.id === data.currentTicketId);
-        if (current && current.status === "em_atendimento") {
+        const current = data.queue.find((item) => item.status === "em_atendimento" && item.attendedBy === who);
+        if (current) {
           return { ok: false, message: "Finalize o atendimento atual antes de chamar o proximo." };
         }
 
-        const next = data.queue.find((item) => item.status === "aguardando" && String(item.code || "").startsWith("P"))
-          || data.queue.find((item) => item.status === "aguardando");
+        const waitingInDepartment = data.queue
+          .filter((item) => item.status === "aguardando" && normalizeDepartment(item.department) === department)
+          .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+
+        const next = waitingInDepartment.find((item) => String(item.code || "").startsWith("P"))
+          || waitingInDepartment[0];
         if (!next) return { ok: false, message: "Nao ha senha aguardando." };
 
         next.status = "em_atendimento";
         next.calledAt = nowIso();
         next.attendedBy = who;
         data.currentTicketId = next.id;
-        data.lastCalled = { code: next.code, service: next.service, at: nowIso() };
+        data.lastCalled = { code: next.code, service: next.service, counterName: next.counterName, at: nowIso() };
 
         return { ok: true, ticket: clone(next) };
       });
@@ -315,7 +393,8 @@
       const duration = Number(serviceDurationSec) || 0;
 
       return updateData((data) => {
-        const ticket = data.queue.find((item) => item.id === data.currentTicketId && item.status === "em_atendimento");
+        const ticket = data.queue.find((item) => item.status === "em_atendimento" && item.attendedBy === who)
+          || data.queue.find((item) => item.id === data.currentTicketId && item.status === "em_atendimento");
         if (!ticket) {
           return { ok: false, message: "Nenhum atendimento em andamento." };
         }
@@ -327,6 +406,8 @@
         ticket.serviceDurationSec = duration;
         ticket.receipt = {
           fileName: `recibo_${ticket.code}.txt`,
+          format: "txt",
+          mimeType: "text/plain;charset=utf-8",
           generatedAt: nowIso(),
           content:
 `Instituto Medio Tecnico Sao Benedito
@@ -344,7 +425,29 @@ Observacoes: ${ticket.notes || "Sem observacoes"}
 
         data.history.unshift(ticket);
         data.queue = data.queue.filter((item) => item.id !== ticket.id);
-        data.currentTicketId = null;
+        if (data.currentTicketId === ticket.id) data.currentTicketId = null;
+
+        return { ok: true, ticket: clone(ticket) };
+      });
+    },
+
+    setReceipt(ticketId, receiptPayload) {
+      const id = String(ticketId || "").trim();
+      if (!id) return { ok: false, message: "Ticket invalido." };
+
+      return updateData((data) => {
+        const ticket = findTicketById(data, id);
+        if (!ticket) return { ok: false, message: "Senha nao encontrada." };
+        if (ticket.status !== "concluido") return { ok: false, message: "Recibo apenas para atendimento concluido." };
+
+        ticket.receipt = {
+          fileName: String(receiptPayload.fileName || `recibo_${ticket.code}.txt`),
+          format: String(receiptPayload.format || "txt"),
+          mimeType: String(receiptPayload.mimeType || "text/plain;charset=utf-8"),
+          generatedAt: nowIso(),
+          content: String(receiptPayload.content || ""),
+          dataUrl: receiptPayload.dataUrl ? String(receiptPayload.dataUrl) : null
+        };
 
         return { ok: true, ticket: clone(ticket) };
       });
@@ -355,7 +458,8 @@ Observacoes: ${ticket.notes || "Sem observacoes"}
       const note = String(notes || "Reencaminhado").trim();
 
       return updateData((data) => {
-        const ticket = data.queue.find((item) => item.id === data.currentTicketId && item.status === "em_atendimento");
+        const ticket = data.queue.find((item) => item.status === "em_atendimento" && item.attendedBy === who)
+          || data.queue.find((item) => item.id === data.currentTicketId && item.status === "em_atendimento");
         if (!ticket) {
           return { ok: false, message: "Nenhum atendimento em andamento." };
         }
@@ -364,16 +468,18 @@ Observacoes: ${ticket.notes || "Sem observacoes"}
         ticket.notes = `${note} (${nowIso()})`;
         ticket.calledAt = null;
         ticket.attendedBy = who;
-        data.currentTicketId = null;
+        if (data.currentTicketId === ticket.id) data.currentTicketId = null;
 
         return { ok: true, ticket: clone(ticket) };
       });
     },
 
-    setCurrentNote(note) {
+    setCurrentNote(note, attendantName) {
       const text = String(note || "").trim();
+      const who = String(attendantName || "Trabalhador").trim();
       return updateData((data) => {
-        const ticket = data.queue.find((item) => item.id === data.currentTicketId && item.status === "em_atendimento");
+        const ticket = data.queue.find((item) => item.status === "em_atendimento" && item.attendedBy === who)
+          || data.queue.find((item) => item.id === data.currentTicketId && item.status === "em_atendimento");
         if (!ticket) return { ok: false, message: "Nenhum atendimento em andamento." };
         ticket.notes = text;
         return { ok: true, ticket: clone(ticket) };
@@ -413,9 +519,37 @@ Observacoes: ${ticket.notes || "Sem observacoes"}
 
         return { ok: true, ticket: clone(ticket) };
       });
+    },
+
+    archiveAndResetDay(label) {
+      const archiveLabel = String(label || "").trim() || new Date().toISOString().slice(0, 10);
+
+      return updateData((data) => {
+        const snapshot = {
+          id: `day-${Date.now()}`,
+          label: archiveLabel,
+          createdAt: nowIso(),
+          queue: clone(data.queue),
+          history: clone(data.history),
+          counterNormal: data.counterNormal,
+          counterPriority: data.counterPriority,
+          totalTickets: data.queue.length + data.history.length
+        };
+
+        data.dailyArchives.unshift(snapshot);
+        data.queue = [];
+        data.history = [];
+        data.counterNormal = 0;
+        data.counterPriority = 0;
+        data.currentTicketId = null;
+        data.lastCalled = null;
+
+        return { ok: true, archive: clone(snapshot), message: "Historico guardado e painel reiniciado." };
+      });
     }
   };
 
   window.IMTSBStore = store;
   store.ensureSeed();
 })();
+

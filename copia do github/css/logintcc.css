@@ -43,7 +43,7 @@ section#login {
 }
 
 section#login > div#imagem {
-  background: var(--accent-bordeaux) url(classroom.jpg) center center no-repeat;
+  background: var(--accent-bordeaux) url("../image/classroom.jpg") center center no-repeat;
   background-size: cover;
   height: 180px;
 }
@@ -184,3 +184,17 @@ input[type="submit"]:hover {
   background-color: var(--accent-bordeaux);
   color: #fff;
 }
+
+.confirm-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  margin-top: 8px;
+}
+
+
+
+
+

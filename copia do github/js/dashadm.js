@@ -336,18 +336,46 @@ function renderWorkers(snapshot) {
     tr.innerHTML = `
       <td>${w.name}</td>
       <td>${w.email}</td>
-      <td>${w.department || 'Outro'}</td>
+      <td>${w.department || 'Apoio ao Cliente'}</td>
+      <td><button type="button" class="remove-worker-btn" data-worker-id="${w.id}">Remover</button></td>
     `;
     workersBody.appendChild(tr);
   });
 
   if (!workers.length) {
-    workersBody.innerHTML = '<tr><td colspan="3">Sem trabalhadores cadastrados.</td></tr>';
+    workersBody.innerHTML = '<tr><td colspan="4">Sem trabalhadores cadastrados.</td></tr>';
   }
+
+  workersBody.querySelectorAll('.remove-worker-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const workerId = btn.getAttribute('data-worker-id');
+      const result = window.IMTSBStore.removeWorker(workerId);
+      const msgEl = document.getElementById('workerFormMsg');
+      if (msgEl) {
+        msgEl.textContent = result.message;
+        msgEl.style.color = result.ok ? '#0f766e' : '#b91c1c';
+      }
+      if (result.ok) render(window.IMTSBStore.getSnapshot());
+    });
+  });
 }
 
 function sair() {
   window.IMTSBStore.logout();
+}
+
+function refreshDashboard() {
+  render(window.IMTSBStore.getSnapshot());
+}
+
+function saveAndResetDay() {
+  const shouldContinue = confirm('Deseja guardar o historico do dia e reiniciar os contadores para 0?');
+  if (!shouldContinue) return;
+
+  const label = prompt('Etiqueta do dia (opcional):', new Date().toLocaleDateString('pt-BR')) || '';
+  const result = window.IMTSBStore.archiveAndResetDay(label);
+  alert(result.ok ? result.message : 'Falha ao reiniciar o dia.');
+  render(window.IMTSBStore.getSnapshot());
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -370,4 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const btn = document.getElementById('btnSairAdmin');
   if (btn) btn.addEventListener('click', sair);
+  const btnResetDay = document.getElementById('btnResetDayAdmin');
+  if (btnResetDay) btnResetDay.addEventListener('click', saveAndResetDay);
 });
+

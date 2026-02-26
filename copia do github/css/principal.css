@@ -171,45 +171,45 @@ body {
 }
 
 .course-media-informatica {
-  background-image: url("classroom.jpg");
+  background-image: url("../image/classroom.jpg");
 }
 
 .course-media-contabilidade {
-  background-image: url("classroom_-_Copia.jpg");
+  background-image: url("../image/classroom_-_Copia.jpg");
 }
 
 .course-media-eletrotecnia {
-  background-image: url("classroom.jpg");
+  background-image: url("../image/classroom.jpg");
   background-position: center top;
 }
 
 .course-media-gestao {
-  background-image: url("classroom_-_Copia.jpg");
+  background-image: url("../image/classroom_-_Copia.jpg");
   background-position: center bottom;
 }
 
 .course-media-desenho {
-  background-image: url("classroom.jpg");
+  background-image: url("../image/classroom.jpg");
   background-position: right center;
 }
 
 .course-media-petro {
-  background-image: url("classroom_-_Copia.jpg");
+  background-image: url("../image/classroom_-_Copia.jpg");
   background-position: left center;
 }
 
 .course-media-eletronica {
-  background-image: url("classroom.jpg");
+  background-image: url("../image/classroom.jpg");
   background-position: center;
 }
 
 .course-media-ambiente {
-  background-image: url("classroom_-_Copia.jpg");
+  background-image: url("../image/classroom_-_Copia.jpg");
   background-position: center;
 }
 
 .course-media-estatistica {
-  background-image: url("classroom.jpg");
+  background-image: url("../image/classroom.jpg");
   background-position: center bottom;
 }
 
@@ -256,7 +256,7 @@ body {
   min-height: 220px;
   border-radius: 14px;
   background: linear-gradient(120deg, rgba(64, 25, 3, 0.12), rgba(191, 167, 153, 0.28)),
-    url("classroom.jpg") center/cover no-repeat;
+    url("../image/classroom.jpg") center/cover no-repeat;
   box-shadow: 0 4px 14px rgba(64, 25, 3, 0.14);
 }
 
@@ -366,3 +366,8 @@ body.reveal-ready .reveal-item.is-visible {
     transition: none !important;
   }
 }
+
+
+
+
+
