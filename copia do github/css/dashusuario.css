@@ -76,6 +76,12 @@ h1, h2, h3, h4, h5, h6 {
             flex-direction: column;
             gap: 8px;
         }
+
+        .user-actions-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
       
         .logo {
             width: 40px;
@@ -137,11 +143,67 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
 }
 
+.page-layout {
+    display: flex;
+    min-height: calc(100vh - 74px);
+}
+
 .sidebar {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    width: 62px;
+    min-width: 62px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--glass-border);
+    padding: 10px 0;
+    gap: 10px;
+    position: sticky;
+    top: 74px;
+    height: calc(100vh - 74px);
+}
+
+.nav-item {
+    width: 100%;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    border: none;
+    background: transparent;
+    color: var(--accent-bordeaux);
+}
+
+.nav-item:hover {
+    background: rgba(140, 103, 70, 0.08);
+}
+
+.nav-item.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-beige);
+}
+
+.nav-item svg,
+.nav-item .material-icons {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    color: var(--accent-bordeaux);
+}
+
+.nav-item.nav-logout:hover {
+    background: rgba(38, 5, 5, 0.12);
 }
 
 .main-content {
+    flex: 1;
     padding: var(--space-md);
 }
 
@@ -392,6 +454,34 @@ h1, h2, h3, h4, h5, h6 {
     transition: all .2s ease;
 }
 
+.icon-action-btn{
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid rgba(64,25,3,.25);
+    background: rgba(255,255,255,.9);
+    color: var(--primary-brown-dark);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+}
+
+.icon-action-btn:hover{
+    background: var(--accent-beige);
+    transform: translateY(-1px);
+}
+
+.icon-action-btn .material-icons{
+    font-size: 1.25rem;
+}
+
+.icon-action-btn.logout:hover{
+    background: var(--accent-bordeaux);
+    color: var(--accent-beige);
+}
+
 .service-card.ativo{
     outline: 3px solid rgba(140,103,70,.35);
     transform: translateY(-2px);
@@ -431,6 +521,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #docInput{
+    margin-bottom: 8px;
+}
+
+#notificationEmail{
     margin-bottom: 8px;
 }
 
@@ -487,6 +581,24 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 8px;
     padding: 6px 8px;
     height: 34px;
+}
+
+.stars{
+    display:flex;
+    gap: 4px;
+}
+
+.stars button{
+    border:none;
+    background: transparent;
+    font-size: 1.35rem;
+    color: #c4b8ac;
+    cursor:pointer;
+    line-height: 1;
+}
+
+.stars button.active{
+    color: #f59e0b;
 }
 
 .dados-panel{

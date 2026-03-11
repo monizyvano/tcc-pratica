@@ -246,7 +246,7 @@ function exportData() {
     (h.attachments || []).map((a) => a.name).join(', ')
   ]);
 
-  const head = ['Senha','Servico','Usuario','Email','Atendido Por','Emissao','Conclusao','Duracao (seg)','Nota','Comentario','Documentos'];
+  const head = ['Senha','Servico','Visitante','Email','Atendido Por','Emissao','Conclusao','Duracao (seg)','Nota','Comentario','Documentos'];
   let format = document.getElementById('exportFormat')?.value;
   if (!format) {
     const picked = (prompt('Escolha o formato: pdf ou excel', 'excel') || 'excel').toLowerCase();

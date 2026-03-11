@@ -97,6 +97,10 @@
     .header-buttons-vertical {
         min-width: 130px;
     }
+
+    .user-actions-menu {
+        min-width: 52px;
+    }
     
     .header-content {
         display: flex;

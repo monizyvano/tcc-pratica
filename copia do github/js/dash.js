@@ -114,6 +114,18 @@ function downloadTextFile(filename, content) {
   URL.revokeObjectURL(url);
 }
 
+function downloadBlobFile(filename, content, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 function downloadFromDataUrl(filename, dataUrl) {
   const a = document.createElement('a');
   a.href = dataUrl;
@@ -126,7 +138,9 @@ function downloadFromDataUrl(filename, dataUrl) {
 function getReceiptFormat() {
   const el = document.getElementById('receiptFormat');
   const value = el ? String(el.value || '').toLowerCase() : 'pdf';
-  return value === 'txt' ? 'txt' : 'pdf';
+  if (value === 'txt') return 'txt';
+  if (value === 'excel') return 'excel';
+  return 'pdf';
 }
 
 function buildReceiptPdfDataUrl(contentText) {
@@ -136,6 +150,23 @@ function buildReceiptPdfDataUrl(contentText) {
   const lines = doc.splitTextToSize(String(contentText || ''), 180);
   doc.text(lines, 15, 20);
   return doc.output('datauristring');
+}
+
+function buildReceiptExcelHtml(ticket, contentText) {
+  const safe = (v) => String(v || '').replace(/</g, '&lt;');
+  return `<table border=\"1\">
+    <tr><th>Campo</th><th>Valor</th></tr>
+    <tr><td>Senha</td><td>${safe(ticket.code)}</td></tr>
+    <tr><td>Servico</td><td>${safe(ticket.service)}</td></tr>
+    <tr><td>Visitante</td><td>${safe(ticket.userName)} (${safe(ticket.userEmail)})</td></tr>
+    <tr><td>Email Notificacao</td><td>${safe(ticket.notificationEmail || ticket.userEmail)}</td></tr>
+    <tr><td>Atendido por</td><td>${safe(ticket.attendedBy)}</td></tr>
+    <tr><td>Emissao</td><td>${safe(ticket.createdAt)}</td></tr>
+    <tr><td>Conclusao</td><td>${safe(ticket.completedAt)}</td></tr>
+    <tr><td>Duracao (seg)</td><td>${safe(ticket.serviceDurationSec)}</td></tr>
+    <tr><td>Observacoes</td><td>${safe(ticket.notes)}</td></tr>
+    <tr><td>Conteudo Recibo</td><td>${safe(contentText).replace(/\\n/g, '<br>')}</td></tr>
+  </table>`;
 }
 
 function renderCurrentTicket() {
@@ -252,7 +283,8 @@ function concludeCurrent(withPrompt, format) {
   renderStatsAndLog();
 
   if (result.ticket && result.ticket.receipt) {
-    const receiptFormat = (format || 'pdf').toLowerCase() === 'txt' ? 'txt' : 'pdf';
+    const rawFormat = String(format || 'pdf').toLowerCase();
+    const receiptFormat = rawFormat === 'txt' || rawFormat === 'excel' ? rawFormat : 'pdf';
     const baseName = `recibo_${result.ticket.code}`;
     if (receiptFormat === 'pdf') {
       const dataUrl = buildReceiptPdfDataUrl(result.ticket.receipt.content);
@@ -281,6 +313,16 @@ function concludeCurrent(withPrompt, format) {
         const saved = window.IMTSBStore.setReceipt(result.ticket.id, fallback);
         if (saved.ok) downloadTextFile(fallback.fileName, fallback.content);
       }
+    } else if (receiptFormat === 'excel') {
+      const excelContent = buildReceiptExcelHtml(result.ticket, result.ticket.receipt.content);
+      const excelReceipt = {
+        fileName: `${baseName}.xls`,
+        format: 'excel',
+        mimeType: 'application/vnd.ms-excel;charset=utf-8;',
+        content: excelContent
+      };
+      const saved = window.IMTSBStore.setReceipt(result.ticket.id, excelReceipt);
+      if (saved.ok) downloadBlobFile(excelReceipt.fileName, excelReceipt.content, excelReceipt.mimeType);
     } else {
       const txtReceipt = {
         fileName: `${baseName}.txt`,
@@ -337,12 +379,12 @@ function requestDocuments() {
     return;
   }
   const docs = currentTicket.attachments || [];
-  if (docs.length === 0) {
-    alert('Este usuario nao anexou documentos.');
-    return;
-  }
-  const names = docs.map((d) => d.name).join('\n');
-  alert(`Documentos anexados:\n${names}`);
+  const names = docs.length ? docs.map((d) => d.name).join('\n') : 'Nenhum documento anexado.';
+  const serviceForm = currentTicket.serviceForm && typeof currentTicket.serviceForm === 'object'
+    ? Object.keys(currentTicket.serviceForm).map((k) => `${k}: ${currentTicket.serviceForm[k]}`).join('\n')
+    : 'Sem dados de formulario.';
+  const emailNotify = currentTicket.notificationEmail || currentTicket.userEmail || '-';
+  alert(`Email de notificacao: ${emailNotify}\n\nDados do formulario:\n${serviceForm}\n\nDocumentos anexados:\n${names}`);
 }
 
 function sendReceipt() {

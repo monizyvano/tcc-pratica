@@ -11,7 +11,7 @@
     <div class="header-top">
       <div class="logo">IMTSB</div>
       <span class="site-title">INSTITUTO MEDIO TECNICO SAO BENEDITO</span>
-      <a href="logintcc.html" class="btn-login">Login</a>
+      <a href="index.html" class="btn-login" id="principalAuthAction">Login</a>
     </div>
   </header>
 
@@ -109,7 +109,7 @@
       <h2>Professores</h2>
       <div class="cards-grid">
         <article class="card"><h3>Prof. Gregorio</h3><p>Professor de Programacao.</p></article>
-        <article class="card"><h3>Prof. Sergio</h3><p>Professor de Redes.</p></article>
+        <article class="card"><h3>Prof. Sérgio</h3><p>Professor de Redes.</p></article>
         <article class="card"><h3>Prof. Valdemar</h3><p>Professor de Projeto Tecnologico.</p></article>
         <article class="card"><h3>Prof. Wagner</h3><p>Professor de Oratoria.</p></article>
       </div>
@@ -154,6 +154,25 @@
     </div>
   </footer>
 
+  <script src="js/api-config.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/realtime-store.js"></script>
+  <script>
+    (function () {
+      const authAction = document.getElementById("principalAuthAction");
+      if (!authAction || !window.IMTSBStore) return;
+
+      const session = window.IMTSBStore.getSession();
+      if (!session) return;
+
+      let panelHref = "visitante.html";
+      if (session.role === "admin") panelHref = "dashadm.html";
+      else if (session.role === "trabalhador") panelHref = "dashtrabalho.html";
+
+      authAction.textContent = "Meu Painel";
+      authAction.href = panelHref;
+    })();
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const revealEls = Array.from(

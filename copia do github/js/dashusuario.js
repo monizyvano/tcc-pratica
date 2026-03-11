@@ -5,8 +5,6 @@
   if (!session) return;
 
   const servicesList = document.getElementById("servicesList");
-  const docInput = document.getElementById("docInput");
-  const selectedFiles = document.getElementById("selectedFiles");
   const btnEmitirSenha = document.getElementById("btnAtendimento");
   const ticketMessage = document.getElementById("ticketMessage");
   const ticketsList = document.getElementById("ticketsList");
@@ -16,12 +14,14 @@
   const btnMeusDadosDesktop = document.getElementById("btnMeusDadosDesktop");
   const btnFecharDados = document.getElementById("btnFecharDados");
   const meusDadosPanel = document.getElementById("meusDadosPanel");
-  const profileName = document.getElementById("userProfileName");
-  const serviceDocsList = document.getElementById("serviceDocsList");
   const dadoNome = document.getElementById("dadoNome");
   const dadoEmail = document.getElementById("dadoEmail");
   const dadoPerfil = document.getElementById("dadoPerfil");
   const dadoLogin = document.getElementById("dadoLogin");
+  const serviceDocsList = document.getElementById("serviceDocsList");
+  const notificationEmailInput = document.getElementById("notificationEmail");
+  const btnGoPrincipalNav = document.getElementById("btnGoPrincipalNav");
+
   const btnOpenCalendarNav = document.getElementById("btnOpenCalendarNav");
   const calendarPanel = document.getElementById("calendarPanel");
   const btnCloseCalendar = document.getElementById("btnCloseCalendar");
@@ -36,38 +36,24 @@
   const statSat = document.getElementById("statSat");
 
   const serviceDocuments = {
-    Matricula: [
-      "Bilhete de Identidade do aluno",
-      "Certificado de habilitacoes",
-      "2 fotografias tipo passe"
-    ],
-    Reconfirmacao: [
-      "Cartao do aluno",
-      "Comprovativo de pagamento",
-      "Documento de identificacao"
-    ],
-    Tesouraria: [
-      "Documento de identificacao",
-      "Comprovativo de pagamento",
-      "Requerimento de atendimento"
-    ],
-    "Pedido de declaracao": [
-      "Comprovativo do motivo de prioridade",
-      "Documento de identificacao",
-      "Formulario do pedido"
-    ],
-    "Apoio ao Cliente": [
-      "Documento de identificacao",
-      "Descricao do problema ou solicitacao"
-    ]
+    Matricula: ["Bilhete de Identidade do aluno", "Certificado de habilitacoes", "2 fotografias tipo passe"],
+    Reconfirmacao: ["Cartao do aluno", "Comprovativo de pagamento", "Documento de identificacao"],
+    Tesouraria: ["Documento de identificacao", "Comprovativo de pagamento", "Requerimento de atendimento"],
+    "Pedido de declaracao": ["Comprovativo do motivo de prioridade", "Documento de identificacao", "Formulario do pedido"],
+    "Apoio ao Cliente": ["Documento de identificacao", "Descricao do problema ou solicitacao"]
+  };
+
+  const servicePages = {
+    Matricula: "matricula.html",
+    Reconfirmacao: "reconfirmacoes.html",
+    Tesouraria: "tesouraria.html",
+    "Pedido de declaracao": "declaracao.html",
+    "Apoio ao Cliente": "apoio-cliente.html"
   };
 
   let selectedService = "";
   let calendarYear = new Date().getFullYear();
-  const monthNames = [
-    "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-  ];
+  const monthNames = ["Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
   const weekDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
   const fixedCalendarEvents = [
     { name: "1 Provas dos Professores", start: "2025-10-13", end: "2025-10-24" },
@@ -99,38 +85,10 @@
     return new Date(iso).toLocaleString("pt-BR");
   }
 
-  function abrirDados() {
-    if (!meusDadosPanel) return;
-    meusDadosPanel.classList.add("aberto");
-  }
-
-  function fecharDados() {
-    if (!meusDadosPanel) return;
-    meusDadosPanel.classList.remove("aberto");
-  }
-
-  function abrirCalendario() {
-    if (!calendarPanel) return;
-    calendarPanel.classList.add("aberto");
-  }
-
-  function fecharCalendario() {
-    if (!calendarPanel) return;
-    calendarPanel.classList.remove("aberto");
-  }
-
-  function buildMonthMatrix(year, month) {
-    const firstDay = new Date(year, month, 1);
-    const totalDays = new Date(year, month + 1, 0).getDate();
-    const startWeekDay = (firstDay.getDay() + 6) % 7;
-    const cells = [];
-
-    for (let i = 0; i < startWeekDay; i += 1) cells.push("");
-    for (let d = 1; d <= totalDays; d += 1) cells.push(String(d));
-    while (cells.length % 7 !== 0) cells.push("");
-
-    return cells;
-  }
+  function abrirDados() { if (meusDadosPanel) meusDadosPanel.classList.add("aberto"); }
+  function fecharDados() { if (meusDadosPanel) meusDadosPanel.classList.remove("aberto"); }
+  function abrirCalendario() { if (calendarPanel) calendarPanel.classList.add("aberto"); }
+  function fecharCalendario() { if (calendarPanel) calendarPanel.classList.remove("aberto"); }
 
   function parseDateKey(key) {
     const parts = String(key).split("-").map((n) => Number(n));
@@ -150,6 +108,18 @@
     return d;
   }
 
+  function buildMonthMatrix(year, month) {
+    const firstDay = new Date(year, month, 1);
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const startWeekDay = (firstDay.getDay() + 6) % 7;
+    const cells = [];
+
+    for (let i = 0; i < startWeekDay; i += 1) cells.push("");
+    for (let d = 1; d <= totalDays; d += 1) cells.push(String(d));
+    while (cells.length % 7 !== 0) cells.push("");
+    return cells;
+  }
+
   function addRangeToMap(eventsMap, startDate, endDate, label, targetYear) {
     let cursor = new Date(startDate.getTime());
     while (cursor <= endDate) {
@@ -164,7 +134,6 @@
 
   function buildEventsMapForYear(year) {
     const map = {};
-
     fixedCalendarEvents.forEach((eventItem) => {
       const start = parseDateKey(eventItem.start);
       const end = parseDateKey(eventItem.end);
@@ -182,7 +151,6 @@
         addRangeToMap(map, shiftedStart, shiftedEnd, `${eventItem.name} (Planeado ${year})`, year);
       });
     }
-
     return map;
   }
 
@@ -211,37 +179,13 @@
         tableHtml += `<tr>${rowHtml}</tr>`;
       }
       tableHtml += "</tbody></table>";
-
       card.innerHTML = `<div class="month-title">${monthNames[month]}</div>${tableHtml}`;
       annualCalendarGrid.appendChild(card);
     }
   }
 
-  function readFiles(files) {
-    const items = Array.from(files || []);
-    return Promise.all(items.map((file) => new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve({
-        name: file.name,
-        type: file.type || "application/octet-stream",
-        size: file.size,
-        dataUrl: String(reader.result || "")
-      });
-      reader.onerror = () => reject(new Error(`Falha ao ler ${file.name}`));
-      reader.readAsDataURL(file);
-    })));
-  }
-
-  function renderSelectedFiles() {
-    const files = Array.from(docInput.files || []);
-    if (!files.length) {
-      selectedFiles.textContent = "Nenhum documento selecionado.";
-      return;
-    }
-    selectedFiles.textContent = files.map((file) => `${file.name} (${Math.ceil(file.size / 1024)} KB)`).join(" | ");
-  }
-
   function renderServiceDocuments(service) {
+    if (!serviceDocsList) return;
     const docs = serviceDocuments[service] || ["Selecione um servico."];
     serviceDocsList.innerHTML = "";
     docs.forEach((doc) => {
@@ -251,13 +195,21 @@
     });
   }
 
+  function redirectToServiceForm(service) {
+    const page = servicePages[service];
+    if (!page) return;
+    const email = notificationEmailInput && notificationEmailInput.value ? notificationEmailInput.value.trim() : "";
+    const query = email ? `?email=${encodeURIComponent(email)}` : "";
+    window.location.href = `${page}${query}`;
+  }
+
   function renderStats(snapshot) {
     const waiting = snapshot.queue.filter((q) => q.status === "aguardando").length;
     const done = snapshot.history.length;
     const dur = snapshot.history.map((h) => Number(h.serviceDurationSec) || 0).filter((v) => v > 0);
     const avgDur = dur.length ? Math.round(dur.reduce((a, b) => a + b, 0) / dur.length) : 0;
     const rates = snapshot.history.filter((h) => h.rating).map((h) => Number(h.rating.score));
-    const avgRate = rates.length ? Math.round((rates.reduce((a,b)=>a+b,0) / rates.length) * 20) : 0;
+    const avgRate = rates.length ? Math.round((rates.reduce((a, b) => a + b, 0) / rates.length) * 20) : 0;
 
     if (statFila) statFila.textContent = String(waiting);
     if (statDone) statDone.textContent = String(done);
@@ -269,6 +221,25 @@
     return snapshot.queue.concat(snapshot.history)
       .filter((ticket) => ticket.userEmail === session.email)
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
+
+  function attachStarsBehavior(form) {
+    const starWrap = form.querySelector("[data-stars]");
+    const scoreInput = form.querySelector("input[name='score']");
+    if (!starWrap || !scoreInput) return;
+
+    // Cada clique numa estrela define a nota (1-5) no campo hidden "score"
+    // e pinta visualmente as estrelas ativas ate ao valor escolhido hahahaaaaa
+    starWrap.querySelectorAll("button").forEach((starBtn) => {
+      starBtn.addEventListener("click", () => {
+        const value = Number(starBtn.getAttribute("data-value"));
+        scoreInput.value = String(value);
+        starWrap.querySelectorAll("button").forEach((btn) => {
+          const current = Number(btn.getAttribute("data-value"));
+          btn.classList.toggle("active", current <= value);
+        });
+      });
+    });
   }
 
   function renderTickets(userTickets) {
@@ -288,7 +259,7 @@
       item.className = "ticket-item";
 
       const docs = (ticket.attachments || []).length;
-      const rateText = ticket.rating ? `${ticket.rating.score}/5` : "Pendente";
+      const rateText = ticket.rating ? `${ticket.rating.score} estrelas` : "Pendente";
       const recText = ticket.receipt ? ticket.receipt.fileName : "Pendente";
 
       item.innerHTML = `
@@ -322,22 +293,29 @@
         form.className = "rating-form";
         form.innerHTML = `
           <label>Avaliar atendimento</label>
-          <select required>
-            <option value="">Nota</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
+          <div class="stars" data-stars>
+            <button type="button" data-value="1">★</button>
+            <button type="button" data-value="2">★</button>
+            <button type="button" data-value="3">★</button>
+            <button type="button" data-value="4">★</button>
+            <button type="button" data-value="5">★</button>
+          </div>
+          <input type="hidden" required value="" name="score">
           <input type="text" maxlength="100" placeholder="Comentario opcional">
           <button type="submit">Enviar Avaliacao</button>
         `;
+        attachStarsBehavior(form);
 
         form.addEventListener("submit", (event) => {
           event.preventDefault();
-          const score = form.querySelector("select").value;
-          const comment = form.querySelector("input").value;
+          const score = form.querySelector("input[name='score']").value;
+          // Validacao obrigatoria: sem estrela selecionada, nao envia avaliacao.
+          if (!score) {
+            showMessage("Selecione as estrelas para avaliar.", "warn");
+            return;
+          }
+          // Com nota valida, envia nota + comentario opcional para o store.
+          const comment = form.querySelector("input[type='text']").value;
           const result = window.IMTSBStore.rateTicket(ticket.id, session.email, score, comment);
           showMessage(result.ok ? "Avaliacao enviada." : result.message, result.ok ? "ok" : "warn");
           render();
@@ -359,14 +337,12 @@
             const blob = new Blob([ticket.receipt.content], { type: mime });
             link.href = URL.createObjectURL(blob);
           }
-          const ext = ticket.receipt.format === "pdf" ? "pdf" : "txt";
+          const ext = ticket.receipt.format === "pdf" ? "pdf" : (ticket.receipt.format === "excel" ? "xls" : "txt");
           link.download = ticket.receipt.fileName || `recibo_${ticket.code}.${ext}`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          if (!ticket.receipt.dataUrl && link.href.startsWith("blob:")) {
-            URL.revokeObjectURL(link.href);
-          }
+          if (!ticket.receipt.dataUrl && link.href.startsWith("blob:")) URL.revokeObjectURL(link.href);
         });
         actions.appendChild(btnRecibo);
       }
@@ -393,72 +369,6 @@
     renderTickets(userTickets);
   }
 
-  servicesList.querySelectorAll(".service-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      servicesList.querySelectorAll(".service-card").forEach((item) => item.classList.remove("ativo"));
-      card.classList.add("ativo");
-      const directService = card.dataset.servico || "";
-      if (directService) {
-        selectedService = directService;
-      } else {
-        const menu = card.querySelector(".service-menu");
-        selectedService = menu ? menu.value : "";
-      }
-      renderServiceDocuments(selectedService);
-      if (selectedService) {
-        showMessage(`Servico selecionado: ${selectedService}`, "ok");
-      } else {
-        showMessage("Selecione o servico no menu deste cartao.", "warn");
-      }
-    });
-  });
-
-  servicesList.querySelectorAll(".service-menu").forEach((menuEl) => {
-    menuEl.addEventListener("change", () => {
-      const parentCard = menuEl.closest(".service-card");
-      servicesList.querySelectorAll(".service-card").forEach((item) => item.classList.remove("ativo"));
-      if (parentCard) parentCard.classList.add("ativo");
-      selectedService = menuEl.value || "";
-      renderServiceDocuments(selectedService);
-      if (selectedService) showMessage(`Servico selecionado: ${selectedService}`, "ok");
-    });
-  });
-
-  btnEmitirSenha.addEventListener("click", async () => {
-    if (!selectedService) {
-      showMessage("Selecione um servico antes de emitir senha.", "warn");
-      return;
-    }
-
-    if (!docInput.files || docInput.files.length === 0) {
-      showMessage("Anexe os documentos necessarios para emitir a senha.", "warn");
-      return;
-    }
-
-    try {
-      const attachments = await readFiles(docInput.files);
-      const result = window.IMTSBStore.issueTicket({
-        service: selectedService,
-        userEmail: session.email,
-        userName: session.name,
-        attachments
-      });
-
-      if (!result.ok) {
-        showMessage(result.message, "warn");
-        return;
-      }
-
-      showMessage(`Senha emitida com sucesso: ${result.ticket.code}`, "ok");
-      docInput.value = "";
-      renderSelectedFiles();
-      render();
-    } catch (error) {
-      showMessage(error.message || "Falha ao anexar documentos.", "warn");
-    }
-  });
-
-  docInput.addEventListener("change", renderSelectedFiles);
   if (btnSairDesk) btnSairDesk.addEventListener("click", () => window.IMTSBStore.logout());
   if (btnMeusDadosDesktop) btnMeusDadosDesktop.addEventListener("click", abrirDados);
   if (btnFecharDados) btnFecharDados.addEventListener("click", fecharDados);
@@ -468,34 +378,79 @@
     });
   }
   if (btnOpenCalendarNav) btnOpenCalendarNav.addEventListener("click", abrirCalendario);
+  if (btnGoPrincipalNav) btnGoPrincipalNav.addEventListener("click", () => { window.location.href = "principal.html"; });
   if (btnCloseCalendar) btnCloseCalendar.addEventListener("click", fecharCalendario);
-  if (btnPrevYear) {
-    btnPrevYear.addEventListener("click", () => {
-      calendarYear -= 1;
-      renderAnnualCalendar();
-    });
-  }
-  if (btnNextYear) {
-    btnNextYear.addEventListener("click", () => {
-      calendarYear += 1;
-      renderAnnualCalendar();
-    });
-  }
+  if (btnPrevYear) btnPrevYear.addEventListener("click", () => { calendarYear -= 1; renderAnnualCalendar(); });
+  if (btnNextYear) btnNextYear.addEventListener("click", () => { calendarYear += 1; renderAnnualCalendar(); });
   if (calendarPanel) {
     calendarPanel.addEventListener("click", (event) => {
       if (event.target === calendarPanel) fecharCalendario();
     });
   }
 
-  profileName.textContent = `Perfil: ${session.name}`;
+  if (servicesList) {
+    servicesList.querySelectorAll(".service-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        servicesList.querySelectorAll(".service-card").forEach((item) => item.classList.remove("ativo"));
+        card.classList.add("ativo");
+
+        const directService = card.dataset.servico || "";
+        if (directService) {
+          selectedService = directService;
+        } else {
+          const menu = card.querySelector(".service-menu");
+          selectedService = menu ? menu.value : "";
+        }
+
+        renderServiceDocuments(selectedService);
+        if (selectedService) {
+          showMessage(`Servico selecionado: ${selectedService}. A abrir formulario...`, "ok");
+          setTimeout(() => redirectToServiceForm(selectedService), 250);
+        } else {
+          showMessage("Selecione o servico no menu deste cartao.", "warn");
+        }
+      });
+    });
+
+    servicesList.querySelectorAll(".service-menu").forEach((menuEl) => {
+      menuEl.addEventListener("change", () => {
+        const parentCard = menuEl.closest(".service-card");
+        servicesList.querySelectorAll(".service-card").forEach((item) => item.classList.remove("ativo"));
+        if (parentCard) parentCard.classList.add("ativo");
+        selectedService = menuEl.value || "";
+        renderServiceDocuments(selectedService);
+        if (selectedService) {
+          showMessage(`Servico selecionado: ${selectedService}. A abrir formulario...`, "ok");
+          setTimeout(() => redirectToServiceForm(selectedService), 250);
+        }
+      });
+    });
+  }
+
+  if (btnEmitirSenha) {
+    btnEmitirSenha.addEventListener("click", () => {
+      if (!selectedService) {
+        showMessage("Selecione um servico para abrir o formulario.", "warn");
+        return;
+      }
+      redirectToServiceForm(selectedService);
+    });
+  }
+
+  const flash = localStorage.getItem("imtsb_flash");
+  if (flash) {
+    showMessage(flash, "ok");
+    localStorage.removeItem("imtsb_flash");
+  }
+
   if (dadoNome) dadoNome.textContent = session.name || "-";
   if (dadoEmail) dadoEmail.textContent = session.email || "-";
-  if (dadoPerfil) dadoPerfil.textContent = session.role || "-";
+  if (dadoPerfil) dadoPerfil.textContent = "visitante";
   if (dadoLogin) dadoLogin.textContent = formatDate(session.loggedAt);
+  if (notificationEmailInput) notificationEmailInput.value = session.email || "";
+
   renderAnnualCalendar();
   renderServiceDocuments("");
-  renderSelectedFiles();
   window.IMTSBStore.onChange(render);
   render();
 })();
-

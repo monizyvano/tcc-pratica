@@ -20,7 +20,7 @@
         { id: "u-admin-1", name: "Administrador 1", email: "admin1@sb.com", password: "Admin1234", role: "admin" },
         { id: "u-admin-2", name: "Administrador 2", email: "admin2@sb.com", password: "Admin2234", role: "admin" },
         { id: "u-worker-1", name: "Trabalhador 1", email: "trabalhador@sb.com", password: "Trab12345", role: "trabalhador", department: "Secretaria Academica" },
-        { id: "u-user-1", name: "Usuario 1", email: "usuario@sb.com", password: "User12345", role: "usuario" }
+        { id: "u-user-1", name: "Visitante 1", email: "usuario@sb.com", password: "User12345", role: "usuario" }
       ],
       queue: [],
       history: []
@@ -190,7 +190,7 @@
     requireRole(roles) {
       const session = getSession();
       if (!session || !roles.includes(session.role)) {
-        window.location.href = "logintcc.html";
+        window.location.href = "index.html";
         return null;
       }
       return session;
@@ -198,7 +198,7 @@
 
     logout() {
       clearSession();
-      window.location.href = "logintcc.html";
+      window.location.href = "index.html";
     },
 
     login(email, password, selectedRole) {
@@ -225,7 +225,7 @@
       return {
         ok: true,
         user: { name: user.name, role: user.role, email: user.email },
-        redirect: user.role === "admin" ? "dashadm.html" : (user.role === "trabalhador" ? "dashtrabalho.html" : "index.html")
+        redirect: user.role === "admin" ? "dashadm.html" : (user.role === "trabalhador" ? "dashtrabalho.html" : "visitante.html")
       };
     },
 
@@ -302,7 +302,9 @@
     issueTicket(payload) {
       const service = String(payload.service || "").trim();
       const userEmail = normalizeEmail(payload.userEmail);
-      const userName = String(payload.userName || "").trim() || "Usuario";
+      const userName = String(payload.userName || "").trim() || "Visitante";
+      const notificationEmail = normalizeEmail(payload.notificationEmail || userEmail);
+      const serviceForm = payload.serviceForm && typeof payload.serviceForm === "object" ? clone(payload.serviceForm) : null;
       const attachments = Array.isArray(payload.attachments) ? payload.attachments : [];
 
       if (!service) return { ok: false, message: "Selecione um servico." };
@@ -324,6 +326,8 @@
           service,
           userEmail,
           userName,
+          notificationEmail,
+          serviceForm,
           status: "aguardando",
           department: route.department,
           counterNumber: route.counterNumber,
@@ -414,7 +418,7 @@
 Recibo de Atendimento
 Senha: ${ticket.code}
 Servico: ${ticket.service}
-Usuario: ${ticket.userName} (${ticket.userEmail})
+Visitante: ${ticket.userName} (${ticket.userEmail})
 Atendido por: ${who}
 Hora de emissao: ${ticket.createdAt}
 Hora de conclusao: ${ticket.completedAt}
